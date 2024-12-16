@@ -128,7 +128,6 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Đăng nhập";
             FormClosing += Dangnhap_FormClosing;
-            Load += Dangnhap_LoadALL;
             ResumeLayout(false);
             PerformLayout();
         }

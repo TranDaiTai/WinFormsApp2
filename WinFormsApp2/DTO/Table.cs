@@ -63,6 +63,8 @@ namespace QuanLySuShi.DTO
             new Table("B015", "Bàn 15", GetTableStatus("B015")),
             new Table("B016", "Bàn 16", GetTableStatus("B016"))
         };
+     
+
 
 
     }

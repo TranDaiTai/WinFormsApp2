@@ -86,13 +86,28 @@ namespace QuanLySuShi
             // Lấy số lượng từ textbox
             int soLuong;
             int.TryParse(soluong.Text, out soLuong);
+            Table selectTable = (selectedButton.Tag as Table);
+         
 
             string maphieu = PhieudatmonDAO.GetPhieuDatMonByTableId((selectedButton.Tag as Table).TableID);
             bool isSuccess = false;
             string mamonan = selectedMonAn.MaMonAn;
             if (string.IsNullOrEmpty(maphieu))
             {
+                string maPhieuMoi = PhieudatmonDAO.GetMaxPhieuDatMon(); // Hoặc có thể là chuỗi tự tạo, tùy vào quy tắc trong hệ thống của bạn.
 
+                isSuccess = PhieudatmonDAO.CreatePhieuDatMon( Dangnhap.nv.MaNhanVien, Dangnhap.nv.MaChiNhanh, maPhieuMoi);
+                if (isSuccess)
+                {
+                   ;
+                    if (PhieudatmontructiepDAO.CreatePhieuDatMonTrucTiep(maPhieuMoi, selectTable.TableID)&&ChitietphieuDAO.AddChitietPhieu(maPhieuMoi, mamonan, soLuong))
+                        MessageBox.Show("Tạo Phiếu và Thêm món ăn vào phiếu thành công!", "Thông báo");
+                    selectTable.Status =Table.GetTableStatus(selectTable.TableID);
+                    Loadtable();
+                    showPhieudat(selectTable.TableID);
+                }
+                // Cập nhật lại danh sách chi tiết phiếu
+                
             }
             else
             {
@@ -106,7 +121,7 @@ namespace QuanLySuShi
                     MessageBox.Show("Thêm món ăn vào phiếu thành công!", "Thông báo");
 
                     // Cập nhật lại danh sách chi tiết phiếu
-                    showPhieudat((selectedButton.Tag as Table).TableID);
+                    showPhieudat(selectTable.TableID);
                 }
                 else
                 {
@@ -117,6 +132,7 @@ namespace QuanLySuShi
 
         void Loadtable()
         {
+            flpTable.Controls.Clear();
             foreach (var table in Table.Tables)
             {
                 Button btn = new Button()

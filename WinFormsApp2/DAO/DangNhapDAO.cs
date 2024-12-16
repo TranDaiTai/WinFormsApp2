@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using QuanLySuShi.DTO;
@@ -9,70 +10,34 @@ namespace QuanLySuShi.DAO
     public class DangNhapDAO
     {
      
-        public static List<DangNhap> GetAllDangNhapKH()
+        public static bool TryDangNhapKH(string taikhoan, string matkhau)
         {
-            List<DangNhap> dangNhapKHs = new List<DangNhap>();
-            try
-            {
-                DataProvider.OpenConnection();
-                string query = "SELECT taikhoan, matkhau FROM khachhang";
+           
+            string query = "SELECT taikhoan, matkhau FROM khachhang where taikhoan =@taikhoan and matkhau = @matkhau";
 
-                SqlCommand command = new SqlCommand(query, DataProvider.connection);
-                SqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    DangNhap dangNhap = new DangNhap
-                    {
-                        TaiKhoan = reader["taikhoan"].ToString(),
-                        MatKhau = reader["matkhau"].ToString()
-                    };
-                    dangNhapKHs.Add(dangNhap);
-                }
-            }
-            catch (SqlException ex)
+            Dictionary<string, object> parameters = new Dictionary<string, object>
             {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                DataProvider.CloseConnection();
-            }
-
-            return dangNhapKHs;
+                {"@taikhoan",taikhoan},
+                {"@matkhau",matkhau}
+            };
+            DataTable data= DataProvider.ExecuteSelectQuery(query, parameters);
+            return data.Rows.Count > 0;
         }
 
-        public static List<DangNhap> GetAllDangNhapNV()
+        public static bool TryDangNhapNV(string taikhoan, string matkhau)
         {
-            List<DangNhap> dangNhapNVs = new List<DangNhap>();
-            try
-            {
-                DataProvider.OpenConnection();
-                string query = "SELECT taikhoan, matkhau FROM nhanvien";
 
-                SqlCommand command = new SqlCommand(query, DataProvider.connection);
-                SqlDataReader reader = command.ExecuteReader();
+            string query = "SELECT taikhoan, matkhau FROM nhanvien where taikhoan =@taikhoan and matkhau = @matkhau";
 
-                while (reader.Read())
-                {
-                    DangNhap dangNhap = new DangNhap
-                    {
-                        TaiKhoan = reader["taikhoan"].ToString(),
-                        MatKhau = reader["matkhau"].ToString()
-                    };
-                    dangNhapNVs.Add(dangNhap);
-                }
-            }
-            catch (SqlException ex)
+            Dictionary<string, object> parameters = new Dictionary<string, object>
             {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                DataProvider.CloseConnection();
-            }
+                {"@taikhoan",taikhoan},
+                {"@matkhau",matkhau}
+            };
+            DataTable data = DataProvider.ExecuteSelectQuery(query, parameters);
 
-            return dangNhapNVs;
+            return data.Rows.Count > 0;
+
         }
     }
 }

@@ -14,8 +14,7 @@ namespace QuanLySuShi
         private static DataProvider instance;
         const string connstring = "Data Source=DESKTOP-RI069V5;Initial Catalog=QLShiShu;Integrated Security=True;TrustServerCertificate=True";
         public static SqlConnection connection;
-        public static List<DangNhap> DangNhap_KHs = new List<DangNhap>();
-        public static List<DangNhap> DangNhap_NVs = new List<DangNhap>();
+       
 
         public static DataProvider Instance {
              get {
@@ -37,66 +36,7 @@ namespace QuanLySuShi
         {
             connection.Close();
         }
-        public static void GetAllDangNhap_KH()
-        {
-            try
-            {
-                OpenConnection();
-                string query = "select taikhoan, matkhau from khachhang";
-
-                SqlCommand command = new SqlCommand(query, connection);
-                SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    DangNhap dangNhap = new DangNhap();
-                    dangNhap.TaiKhoan = reader["Taikhoan"].ToString();
-                    dangNhap.MatKhau = reader["MatKhau"].ToString();
-                    DangNhap_KHs.Add(dangNhap);
-
-                }
-
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message);   
-            }
-        
-            finally
-            {
-                CloseConnection();
-            }
-
-        }
-        public static void GetAllDangNhap_NV()
-        {
-            try
-            {
-                OpenConnection();
-                string query = "select taikhoan, matkhau from nhanvien";
-
-                SqlCommand command = new SqlCommand(query, connection);
-                SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    DangNhap dangNhap = new DangNhap();
-                    dangNhap.TaiKhoan = reader["Taikhoan"].ToString();
-                    dangNhap.MatKhau = reader["MatKhau"].ToString();
-                    DangNhap_NVs.Add(dangNhap);
-
-                }
-
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-            finally
-            {
-                CloseConnection();
-            }
-
-        }
+      
         public static DataTable ExecuteSelectQuery(string query, Dictionary<string, object> parameters = null)
         {
             DataTable dataTable = new DataTable();

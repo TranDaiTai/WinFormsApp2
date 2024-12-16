@@ -11,6 +11,10 @@ namespace QuanLySuShi
 {
     public partial class Dangnhap : Form
     {
+        public static NhanVien nv = null;
+        //public static Khachhang kh = null;
+
+
         public Dangnhap()
         {
             InitializeComponent();
@@ -28,33 +32,27 @@ namespace QuanLySuShi
             }
             bool isFound = false;
             List<DangNhap> listdn = null;
-            if (loai == 0)
+            if (loai == 1)
             {
-                listdn = DataProvider.DangNhap_NVs;
+                isFound = DangNhapDAO.TryDangNhapKH(tendangnhap, matkhau);
             }
-            else if (loai == 1)
+            else if (loai == 0)
             {
-                listdn = DataProvider.DangNhap_KHs;
-            }
-            foreach (var dn in listdn)
-            {
-                if (dn.TaiKhoan == tendangnhap && dn.MatKhau == matkhau)
-                {
-                    isFound = true; break;
-                }
-
+                isFound = DangNhapDAO.TryDangNhapNV(tendangnhap, matkhau);
             }
             if (isFound)
             {
                 if (loai == 0)
                 {
                     MainfmNhanvien f = new MainfmNhanvien();
+                    Dangnhap.nv = NhanVienDAO.GetNhanVienByTaiKhoan(tendangnhap);
                     f.Show();
 
                 }
                 else
                 {
                     Mainfmkhachhang f = new Mainfmkhachhang();
+                    //Dangnhap.kh = KhachHangDAO.GetKhachHangByTaiKhoan(tendangnhap);
                     f.Show();
 
                 }
@@ -75,12 +73,6 @@ namespace QuanLySuShi
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-        }
-
-        private void Dangnhap_LoadALL(object sender, EventArgs e)
-        {
-            DataProvider.GetAllDangNhap_NV();
-            DataProvider.GetAllDangNhap_KH();
         }
 
         private bool kiemtranhap()
@@ -126,9 +118,7 @@ namespace QuanLySuShi
               {  tbmatkhau.Text = "password789";
                 tbtaikhoan.Text = "nguyenvanc";
             }
-
            
-               
         }
     }
 }
