@@ -133,7 +133,12 @@
             label21 = new Label();
             textBox21 = new TextBox();
             groupBox1 = new GroupBox();
+            comboBox4 = new ComboBox();
+            comboBox2 = new ComboBox();
+            comboBox5 = new ComboBox();
             label22 = new Label();
+            label28 = new Label();
+            label27 = new Label();
             label23 = new Label();
             label24 = new Label();
             label25 = new Label();
@@ -142,11 +147,6 @@
             textBox24 = new TextBox();
             label26 = new Label();
             textBox25 = new TextBox();
-            label27 = new Label();
-            label28 = new Label();
-            comboBox5 = new ComboBox();
-            comboBox2 = new ComboBox();
-            comboBox4 = new ComboBox();
             tabPage5.SuspendLayout();
             panel11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView5).BeginInit();
@@ -705,7 +705,7 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Món ăn";
             tabPage1.UseVisualStyleBackColor = true;
-            tabPage1.Click += tabPage1_Click;
+          
             // 
             // panel6
             // 
@@ -723,7 +723,7 @@
             panel6.Name = "panel6";
             panel6.Size = new Size(372, 329);
             panel6.TabIndex = 1;
-            panel6.Paint += panel6_Paint;
+          
             // 
             // numericUpDown1
             // 
@@ -756,7 +756,7 @@
             label4.Size = new Size(71, 20);
             label4.TabIndex = 3;
             label4.Text = "Thực đơn";
-            label4.Click += label4_Click;
+          
             // 
             // label3
             // 
@@ -826,6 +826,7 @@
             dataGridView3.RowHeadersWidth = 51;
             dataGridView3.Size = new Size(392, 323);
             dataGridView3.TabIndex = 1;
+           
             // 
             // dataGridView2
             // 
@@ -1169,6 +1170,33 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin cá nhân";
             // 
+            // comboBox4
+            // 
+            comboBox4.FormattingEnabled = true;
+            comboBox4.Items.AddRange(new object[] { "Nam", "Nữ" });
+            comboBox4.Location = new Point(124, 235);
+            comboBox4.Name = "comboBox4";
+            comboBox4.Size = new Size(193, 28);
+            comboBox4.TabIndex = 4;
+            // 
+            // comboBox2
+            // 
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Items.AddRange(new object[] { "Nam", "Nữ" });
+            comboBox2.Location = new Point(124, 202);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(193, 28);
+            comboBox2.TabIndex = 4;
+            // 
+            // comboBox5
+            // 
+            comboBox5.FormattingEnabled = true;
+            comboBox5.Items.AddRange(new object[] { "Nam", "Nữ" });
+            comboBox5.Location = new Point(124, 168);
+            comboBox5.Name = "comboBox5";
+            comboBox5.Size = new Size(193, 28);
+            comboBox5.TabIndex = 4;
+            // 
             // label22
             // 
             label22.AutoSize = true;
@@ -1177,7 +1205,25 @@
             label22.Size = new Size(65, 20);
             label22.TabIndex = 3;
             label22.Text = "Giới tính";
-            label22.Click += label22_Click;
+          
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Location = new Point(17, 243);
+            label28.Name = "label28";
+            label28.Size = new Size(64, 20);
+            label28.TabIndex = 3;
+            label28.Text = "Bộ phận";
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new Point(17, 210);
+            label27.Name = "label27";
+            label27.Size = new Size(74, 20);
+            label27.TabIndex = 3;
+            label27.Text = "Chi nhánh";
             // 
             // label23
             // 
@@ -1242,51 +1288,6 @@
             textBox25.Name = "textBox25";
             textBox25.Size = new Size(193, 27);
             textBox25.TabIndex = 0;
-            // 
-            // label27
-            // 
-            label27.AutoSize = true;
-            label27.Location = new Point(17, 210);
-            label27.Name = "label27";
-            label27.Size = new Size(74, 20);
-            label27.TabIndex = 3;
-            label27.Text = "Chi nhánh";
-            // 
-            // label28
-            // 
-            label28.AutoSize = true;
-            label28.Location = new Point(17, 243);
-            label28.Name = "label28";
-            label28.Size = new Size(64, 20);
-            label28.TabIndex = 3;
-            label28.Text = "Bộ phận";
-            // 
-            // comboBox5
-            // 
-            comboBox5.FormattingEnabled = true;
-            comboBox5.Items.AddRange(new object[] { "Nam", "Nữ" });
-            comboBox5.Location = new Point(124, 168);
-            comboBox5.Name = "comboBox5";
-            comboBox5.Size = new Size(193, 28);
-            comboBox5.TabIndex = 4;
-            // 
-            // comboBox2
-            // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "Nam", "Nữ" });
-            comboBox2.Location = new Point(124, 202);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(193, 28);
-            comboBox2.TabIndex = 4;
-            // 
-            // comboBox4
-            // 
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Items.AddRange(new object[] { "Nam", "Nữ" });
-            comboBox4.Location = new Point(124, 235);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(193, 28);
-            comboBox4.TabIndex = 4;
             // 
             // adminfm
             // 

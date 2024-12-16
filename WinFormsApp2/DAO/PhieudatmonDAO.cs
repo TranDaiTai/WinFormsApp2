@@ -1,41 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Runtime.Intrinsics.Arm;
+using System.Windows.Forms;
 using QuanLySuShi.DTO;
 
 namespace QuanLySuShi.DAO
 {
     internal class PhieudatmonDAO
     {
-        public static List<Phieudatmontructiep> GetPhieuDatMonList()
-{
-    var phieuDatMonList = new List<Phieudatmontructiep>();
-    string query = "SELECT MaPhieu, MaBan FROM PhieuDatMonTrucTiep";
-
-    try
-    {
-        // Thực thi truy vấn và lấy dữ liệu
-        DataTable dataTable = DataProvider.ExecuteSelectQuery(query);
-
-        // Duyệt qua từng dòng dữ liệu và ánh xạ vào danh sách đối tượng
-        foreach (DataRow row in dataTable.Rows)
+        public static string GetPhieuDatMonByTableId(string id)
         {
-            var phieuDatMon = new Phieudatmontructiep
+            var query = "SELECT pdm.maphieu " +
+                        "FROM PhieuDatMon pdm " +
+                        "LEFT JOIN HoaDon hd ON pdm.MaPhieu = hd.MaPhieu " +
+                        "JOIN PhieuDatMonTrucTiep tt ON pdm.MaPhieu = tt.MaPhieu " +
+                        "WHERE hd.MaHoaDon IS NULL AND tt.maban = @TableId";
+
+            var parameters = new Dictionary<string, object>
             {
-                MaPhieu = row["MaPhieu"]?.ToString(),
-                MaBan = row["MaBan"]?.ToString()
+                { "@TableId", id }
             };
-            phieuDatMonList.Add(phieuDatMon);
+
+            DataTable dataTable = DataProvider.ExecuteSelectQuery(query, parameters);
+
+            if (dataTable != null && dataTable.Rows.Count > 0)
+            {
+                return dataTable.Rows[0]["maphieu"]?.ToString(); // Sử dụng ?.ToString() để tránh lỗi null.
+            }
+
+            return null; // Trả về null nếu không có dữ liệu.
         }
-    }
-    catch (Exception ex)
-    {
-        // Xử lý ngoại lệ khi có lỗi
-        Console.WriteLine($"Lỗi khi lấy dữ liệu PhieuDatMon: {ex.Message}");
-    }
-
-    return phieuDatMonList;
-}
 
     }
-}
+} 
+

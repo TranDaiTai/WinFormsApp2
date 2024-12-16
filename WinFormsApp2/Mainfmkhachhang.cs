@@ -1,4 +1,6 @@
-﻿using System;
+﻿using QuanLySuShi.DAO;
+using QuanLySuShi.DTO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,30 +17,7 @@ namespace QuanLySuShi
         public Mainfmkhachhang()
         {
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
+            LoadThucdon();
 
         }
 
@@ -52,10 +31,6 @@ namespace QuanLySuShi
 
         }
 
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-
-        }
 
         private void đăngXuấtToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -77,10 +52,6 @@ namespace QuanLySuShi
 
         }
 
-        private void Mainfmkhachhang_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -98,5 +69,54 @@ namespace QuanLySuShi
         {
 
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        void LoadThucdon()
+        {
+            List<ThucDon> listtd = ThucDonDAO.GetAllThucDon();
+            cbbthucdon.DataSource = listtd;
+            cbbthucdon.DisplayMember = "TenThucDon";
+        }
+        void LoadMucByThucdon()
+        {
+            // Lấy MaThucDon của thực đơn đã chọn
+            string maThucDon = ((ThucDon)cbbthucdon.SelectedItem).MaThucDon;
+
+            // Lấy danh sách các mục (mục thực đơn) theo MaThucDon
+            List<Muc> listMuc = MucDAO.GetMucsByMaThucDon(maThucDon);
+
+            // Hiển thị các mục vào combobox hoặc danh sách mục
+            cbbmuc.DataSource = listMuc;
+            cbbmuc.DisplayMember = "TenMuc"; // Hiển thị tên mục
+        }
+
+        void LoadMonAnByMuc()
+        {
+            // Lấy MaMuc của mục thực đơn đã chọn
+            string maMuc = ((Muc)cbbmuc.SelectedItem).MaMuc;
+
+            // Lấy danh sách món ăn theo MaMuc
+            List<MonAn> listMonAn = MonAnDAO.GetMonAnByMuc(maMuc);
+
+            // Hiển thị danh sách món ăn vào combobox hoặc danh sách món ăn
+            cbbmonan.DataSource = listMonAn;
+            cbbmonan.DisplayMember = "TenMonAn"; // Hiển thị tên món ăn
+        }
+        private void cbbthucdon_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Khi người dùng thay đổi thực đơn, tải lại các mục theo thực đơn đã chọn
+            LoadMucByThucdon();
+        }
+
+        private void cbbMuc_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Khi người dùng thay đổi mục, tải lại các món ăn theo mục đã chọn
+            LoadMonAnByMuc();
+        }
+
     }
 }

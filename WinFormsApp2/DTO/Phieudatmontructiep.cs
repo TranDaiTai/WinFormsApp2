@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,9 @@ internal class Phieudatmontructiep
     }
 
     // Default constructor
-    public Phieudatmontructiep() { }
+    public Phieudatmontructiep(DataRow data) 
+    {
+        
+    }
 }
 

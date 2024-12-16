@@ -112,10 +112,23 @@ namespace QuanLySuShi
         {
             if (MessageBox.Show("Ban co muon thoat chuong trinh", "Canh Bao", MessageBoxButtons.YesNo) == DialogResult.No)
             {
-                e.Cancel = true; 
+                e.Cancel = true;
             }
         }
 
+        private void cbbloai_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbbloai.SelectedIndex == 0)
+               { tbmatkhau.Text = "password456";
+                tbtaikhoan.Text = "tranthib";
+            }
+            else
+              {  tbmatkhau.Text = "password789";
+                tbtaikhoan.Text = "nguyenvanc";
+            }
 
+           
+               
+        }
     }
 }

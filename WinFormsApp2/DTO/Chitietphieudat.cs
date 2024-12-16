@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,15 +15,22 @@ namespace QuanLySuShi.DTO
         public decimal Gia { get; set; } // NOT NULL (money in SQL)
 
         // Constructor
-        public Chitietphieudat(string maMonAn, string maPhieu, int soLuong, decimal gia)
+        public Chitietphieudat(string maPhieu, string maMonAn,  int soLuong, decimal gia)
         {
-            MaMonAn = maMonAn;
             MaPhieu = maPhieu;
+            MaMonAn = maMonAn;
             SoLuong = soLuong;
             Gia = gia;
         }
-
-        // Default constructor
         public Chitietphieudat() { }
+        // Default constructor
+        public Chitietphieudat(DataRow data)
+        {
+            MaMonAn = data["MaMonAn"].ToString();
+            MaPhieu = data["MaPhieu"].ToString();
+            SoLuong = Convert.ToInt32(data["SoLuong"]);
+            Gia = Convert.ToInt32(data["Gia"]);
+        }
+
     }
 }

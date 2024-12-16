@@ -62,7 +62,6 @@
             tbtaikhoan.Name = "tbtaikhoan";
             tbtaikhoan.Size = new Size(222, 27);
             tbtaikhoan.TabIndex = 2;
-            tbtaikhoan.Text = "74";
             // 
             // tbmatkhau
             // 
@@ -70,7 +69,6 @@
             tbmatkhau.Name = "tbmatkhau";
             tbmatkhau.Size = new Size(222, 27);
             tbmatkhau.TabIndex = 3;
-            tbmatkhau.Text = "PGOSRM3TT9N9Z0EB6TR7SRJ";
             tbmatkhau.UseSystemPasswordChar = true;
             // 
             // button1
@@ -101,8 +99,7 @@
             cbbloai.Name = "cbbloai";
             cbbloai.Size = new Size(126, 28);
             cbbloai.TabIndex = 6;
-            cbbloai.SelectedIndex= 0;   
-         
+            cbbloai.SelectedIndexChanged += cbbloai_SelectedIndexChanged;
             // 
             // label1
             // 

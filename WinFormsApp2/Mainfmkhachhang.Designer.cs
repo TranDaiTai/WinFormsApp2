@@ -38,12 +38,12 @@
             thôngTinToolStripMenuItem = new ToolStripMenuItem();
             đơnHàngToolStripMenuItem = new ToolStripMenuItem();
             trợGiúpToolStripMenuItem = new ToolStripMenuItem();
-            comboBox1 = new ComboBox();
-            comboBox2 = new ComboBox();
+            cbbthucdon = new ComboBox();
+            cbbmonan = new ComboBox();
             btThem = new Button();
             numericUpDown1 = new NumericUpDown();
             btXoa = new Button();
-            comboBox3 = new ComboBox();
+            cbbmuc = new ComboBox();
             groupBox4 = new GroupBox();
             listView1 = new ListView();
             groupBox1 = new GroupBox();
@@ -61,7 +61,7 @@
             // btdathang
             // 
             btdathang.AutoSize = true;
-            btdathang.Location = new Point(21, 396);
+            btdathang.Location = new Point(12, 387);
             btdathang.Name = "btdathang";
             btdathang.Size = new Size(114, 30);
             btdathang.TabIndex = 2;
@@ -71,7 +71,7 @@
             // 
             // btdatban
             // 
-            btdatban.Location = new Point(141, 396);
+            btdatban.Location = new Point(141, 388);
             btdatban.Name = "btdatban";
             btdatban.Size = new Size(94, 29);
             btdatban.TabIndex = 3;
@@ -98,14 +98,14 @@
             // đăngXuấtToolStripMenuItem
             // 
             đăngXuấtToolStripMenuItem.Name = "đăngXuấtToolStripMenuItem";
-            đăngXuấtToolStripMenuItem.Size = new Size(224, 26);
+            đăngXuấtToolStripMenuItem.Size = new Size(160, 26);
             đăngXuấtToolStripMenuItem.Text = "Đăng xuất";
             đăngXuấtToolStripMenuItem.Click += đăngXuấtToolStripMenuItem_Click;
             // 
             // thoátToolStripMenuItem
             // 
             thoátToolStripMenuItem.Name = "thoátToolStripMenuItem";
-            thoátToolStripMenuItem.Size = new Size(224, 26);
+            thoátToolStripMenuItem.Size = new Size(160, 26);
             thoátToolStripMenuItem.Text = "Thoát";
             thoátToolStripMenuItem.Click += thoátToolStripMenuItem_Click;
             // 
@@ -119,14 +119,14 @@
             // thôngTinToolStripMenuItem
             // 
             thôngTinToolStripMenuItem.Name = "thôngTinToolStripMenuItem";
-            thôngTinToolStripMenuItem.Size = new Size(224, 26);
+            thôngTinToolStripMenuItem.Size = new Size(157, 26);
             thôngTinToolStripMenuItem.Text = "Thông tin";
             thôngTinToolStripMenuItem.Click += thôngTinToolStripMenuItem_Click;
             // 
             // đơnHàngToolStripMenuItem
             // 
             đơnHàngToolStripMenuItem.Name = "đơnHàngToolStripMenuItem";
-            đơnHàngToolStripMenuItem.Size = new Size(224, 26);
+            đơnHàngToolStripMenuItem.Size = new Size(157, 26);
             đơnHàngToolStripMenuItem.Text = "Đơn hàng";
             đơnHàngToolStripMenuItem.Click += đơnHàngToolStripMenuItem_Click;
             // 
@@ -136,21 +136,22 @@
             trợGiúpToolStripMenuItem.Size = new Size(78, 24);
             trợGiúpToolStripMenuItem.Text = "Trợ giúp";
             // 
-            // comboBox1
+            // cbbthucdon
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(6, 15);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(167, 28);
-            comboBox1.TabIndex = 0;
+            cbbthucdon.FormattingEnabled = true;
+            cbbthucdon.Location = new Point(6, 15);
+            cbbthucdon.Name = "cbbthucdon";
+            cbbthucdon.Size = new Size(167, 28);
+            cbbthucdon.TabIndex = 0;
+            cbbthucdon.SelectedIndexChanged += cbbthucdon_SelectedIndexChanged;
             // 
-            // comboBox2
+            // cbbmonan
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(6, 48);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(167, 28);
-            comboBox2.TabIndex = 1;
+            cbbmonan.FormattingEnabled = true;
+            cbbmonan.Location = new Point(6, 48);
+            cbbmonan.Name = "cbbmonan";
+            cbbmonan.Size = new Size(167, 28);
+            cbbmonan.TabIndex = 1;
             // 
             // btThem
             // 
@@ -178,22 +179,23 @@
             btXoa.Text = "Xoá";
             btXoa.UseVisualStyleBackColor = true;
             // 
-            // comboBox3
+            // cbbmuc
             // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(179, 14);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(172, 28);
-            comboBox3.TabIndex = 5;
+            cbbmuc.FormattingEnabled = true;
+            cbbmuc.Location = new Point(179, 14);
+            cbbmuc.Name = "cbbmuc";
+            cbbmuc.Size = new Size(172, 28);
+            cbbmuc.TabIndex = 5;
+            cbbmuc.SelectedIndexChanged += cbbMuc_SelectedIndexChanged;
             // 
             // groupBox4
             // 
-            groupBox4.Controls.Add(comboBox3);
+            groupBox4.Controls.Add(cbbmuc);
             groupBox4.Controls.Add(btXoa);
             groupBox4.Controls.Add(numericUpDown1);
             groupBox4.Controls.Add(btThem);
-            groupBox4.Controls.Add(comboBox2);
-            groupBox4.Controls.Add(comboBox1);
+            groupBox4.Controls.Add(cbbmonan);
+            groupBox4.Controls.Add(cbbthucdon);
             groupBox4.Location = new Point(15, 31);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(423, 78);
@@ -202,7 +204,7 @@
             // 
             // listView1
             // 
-            listView1.Location = new Point(21, 124);
+            listView1.Location = new Point(21, 115);
             listView1.Name = "listView1";
             listView1.Size = new Size(421, 266);
             listView1.TabIndex = 22;
@@ -228,7 +230,7 @@
             // 
             // btuudai
             // 
-            btuudai.Location = new Point(241, 396);
+            btuudai.Location = new Point(241, 388);
             btuudai.Name = "btuudai";
             btuudai.Size = new Size(94, 29);
             btuudai.TabIndex = 25;
@@ -269,7 +271,6 @@
             Controls.Add(btdathang);
             Name = "Mainfmkhachhang";
             Text = "Mainkhachhang";
-            Load += Mainfmkhachhang_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
@@ -290,12 +291,12 @@
         private ToolStripMenuItem quảnLýToolStripMenuItem;
         private ToolStripMenuItem trợGiúpToolStripMenuItem;
         private ToolStripMenuItem thôngTinToolStripMenuItem;
-        private ComboBox comboBox1;
-        private ComboBox comboBox2;
+        private ComboBox cbbthucdon;
+        private ComboBox cbbmonan;
         private Button btThem;
         private NumericUpDown numericUpDown1;
         private Button btXoa;
-        private ComboBox comboBox3;
+        private ComboBox cbbmuc;
         private GroupBox groupBox4;
         private ListView listView1;
         private GroupBox groupBox1;

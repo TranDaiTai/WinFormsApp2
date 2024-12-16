@@ -39,20 +39,20 @@
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             button4 = new Button();
-            textBox1 = new TextBox();
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            tbtongtien = new TextBox();
+            flpTable = new FlowLayoutPanel();
             button1 = new Button();
             comboBox4 = new ComboBox();
             button3 = new Button();
             button2 = new Button();
-            listView1 = new ListView();
+            listchitiet = new ListView();
             groupBox4 = new GroupBox();
-            comboBox3 = new ComboBox();
+            cbbmonan = new ComboBox();
             btXoa = new Button();
-            numericUpDown1 = new NumericUpDown();
+            soluong = new NumericUpDown();
             btThem = new Button();
-            comboBox2 = new ComboBox();
-            comboBox1 = new ComboBox();
+            cbbmuc = new ComboBox();
+            cbbthucdon = new ComboBox();
             tabPage2 = new TabPage();
             groupBox2 = new GroupBox();
             label8 = new Label();
@@ -76,7 +76,7 @@
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)soluong).BeginInit();
             tabPage2.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -103,14 +103,14 @@
             // đăngXuấtToolStripMenuItem
             // 
             đăngXuấtToolStripMenuItem.Name = "đăngXuấtToolStripMenuItem";
-            đăngXuấtToolStripMenuItem.Size = new Size(224, 26);
+            đăngXuấtToolStripMenuItem.Size = new Size(160, 26);
             đăngXuấtToolStripMenuItem.Text = "Đăng xuất";
             đăngXuấtToolStripMenuItem.Click += đăngXuấtToolStripMenuItem_Click;
             // 
             // thoátToolStripMenuItem
             // 
             thoátToolStripMenuItem.Name = "thoátToolStripMenuItem";
-            thoátToolStripMenuItem.Size = new Size(224, 26);
+            thoátToolStripMenuItem.Size = new Size(160, 26);
             thoátToolStripMenuItem.Text = "Thoát";
             thoátToolStripMenuItem.Click += thoátToolStripMenuItem_Click;
             // 
@@ -155,13 +155,13 @@
             // tabPage1
             // 
             tabPage1.Controls.Add(button4);
-            tabPage1.Controls.Add(textBox1);
-            tabPage1.Controls.Add(flowLayoutPanel1);
+            tabPage1.Controls.Add(tbtongtien);
+            tabPage1.Controls.Add(flpTable);
             tabPage1.Controls.Add(button1);
             tabPage1.Controls.Add(comboBox4);
             tabPage1.Controls.Add(button3);
             tabPage1.Controls.Add(button2);
-            tabPage1.Controls.Add(listView1);
+            tabPage1.Controls.Add(listchitiet);
             tabPage1.Controls.Add(groupBox4);
             tabPage1.Location = new Point(4, 29);
             tabPage1.Name = "tabPage1";
@@ -180,19 +180,24 @@
             button4.Text = "Tổng";
             button4.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // tbtongtien
             // 
-            textBox1.Location = new Point(531, 386);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(122, 27);
-            textBox1.TabIndex = 29;
+            tbtongtien.Location = new Point(531, 386);
+            tbtongtien.Name = "tbtongtien";
+            tbtongtien.ReadOnly = true;
+            tbtongtien.Size = new Size(122, 27);
+            tbtongtien.TabIndex = 29;
+            tbtongtien.Text = "0";
+            tbtongtien.TextAlign = HorizontalAlignment.Right;
             // 
-            // flowLayoutPanel1
+            // flpTable
             // 
-            flowLayoutPanel1.Location = new Point(8, 16);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(417, 398);
-            flowLayoutPanel1.TabIndex = 28;
+            flpTable.AutoScroll = true;
+            flpTable.Location = new Point(8, 16);
+            flpTable.Name = "flpTable";
+            flpTable.Size = new Size(417, 398);
+            flpTable.TabIndex = 28;
+            flpTable.Paint += flpTable_Paint;
             // 
             // button1
             // 
@@ -228,78 +233,89 @@
             button2.TabIndex = 24;
             button2.Text = "Ưu Đãi";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
-            // listView1
+            // listchitiet
             // 
-            listView1.Location = new Point(431, 92);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(421, 248);
-            listView1.TabIndex = 22;
-            listView1.UseCompatibleStateImageBehavior = false;
+            listchitiet.GridLines = true;
+            listchitiet.Location = new Point(431, 92);
+            listchitiet.Name = "listchitiet";
+            listchitiet.Size = new Size(421, 248);
+            listchitiet.TabIndex = 22;
+            listchitiet.UseCompatibleStateImageBehavior = false;
+            listchitiet.View = View.Details;
+            listchitiet.ItemSelectionChanged += listchitiet_ItemSelectionChanged;
             // 
             // groupBox4
             // 
-            groupBox4.Controls.Add(comboBox3);
+            groupBox4.Controls.Add(cbbmonan);
             groupBox4.Controls.Add(btXoa);
-            groupBox4.Controls.Add(numericUpDown1);
+            groupBox4.Controls.Add(soluong);
             groupBox4.Controls.Add(btThem);
-            groupBox4.Controls.Add(comboBox2);
-            groupBox4.Controls.Add(comboBox1);
+            groupBox4.Controls.Add(cbbmuc);
+            groupBox4.Controls.Add(cbbthucdon);
             groupBox4.Location = new Point(431, 10);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(423, 76);
             groupBox4.TabIndex = 23;
             groupBox4.TabStop = false;
             // 
-            // comboBox3
+            // cbbmonan
             // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(179, 14);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(172, 28);
-            comboBox3.TabIndex = 5;
+            cbbmonan.FormattingEnabled = true;
+            cbbmonan.Location = new Point(193, 15);
+            cbbmonan.Name = "cbbmonan";
+            cbbmonan.Size = new Size(143, 28);
+            cbbmonan.TabIndex = 5;
+            cbbmonan.Text = "Món";
             // 
             // btXoa
             // 
-            btXoa.Location = new Point(272, 48);
+            btXoa.Location = new Point(342, 48);
             btXoa.Name = "btXoa";
             btXoa.Size = new Size(79, 28);
             btXoa.TabIndex = 4;
             btXoa.Text = "Xoá";
             btXoa.UseVisualStyleBackColor = true;
+            btXoa.Click += btXoa_Click;
             // 
-            // numericUpDown1
+            // soluong
             // 
-            numericUpDown1.Location = new Point(357, 26);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(58, 27);
-            numericUpDown1.TabIndex = 3;
-            numericUpDown1.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            soluong.Location = new Point(350, 15);
+            soluong.Name = "soluong";
+            soluong.Size = new Size(58, 27);
+            soluong.TabIndex = 3;
+            soluong.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // btThem
             // 
-            btThem.Location = new Point(179, 47);
+            btThem.Location = new Point(190, 47);
             btThem.Name = "btThem";
-            btThem.Size = new Size(87, 28);
+            btThem.Size = new Size(70, 28);
             btThem.TabIndex = 2;
             btThem.Text = "Thêm";
             btThem.UseVisualStyleBackColor = true;
+            btThem.Click += btThem_Click;
             // 
-            // comboBox2
+            // cbbmuc
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(6, 48);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(167, 28);
-            comboBox2.TabIndex = 1;
+            cbbmuc.FormattingEnabled = true;
+            cbbmuc.Location = new Point(6, 48);
+            cbbmuc.Name = "cbbmuc";
+            cbbmuc.Size = new Size(167, 28);
+            cbbmuc.TabIndex = 1;
+            cbbmuc.Text = "Mục";
+            cbbmuc.SelectedIndexChanged += cbbMuc_SelectedIndexChanged;
             // 
-            // comboBox1
+            // cbbthucdon
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(6, 15);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(167, 28);
-            comboBox1.TabIndex = 0;
+            cbbthucdon.FormattingEnabled = true;
+            cbbthucdon.Location = new Point(6, 15);
+            cbbthucdon.Name = "cbbthucdon";
+            cbbthucdon.Size = new Size(167, 28);
+            cbbthucdon.TabIndex = 0;
+            cbbthucdon.Text = "Thực đơn";
+            cbbthucdon.SelectedIndexChanged += cbbthucdon_SelectedIndexChanged;
             // 
             // tabPage2
             // 
@@ -493,7 +509,7 @@
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
             groupBox4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)soluong).EndInit();
             tabPage2.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
@@ -514,20 +530,20 @@
         private TabControl tabControl1;
         private TabPage tabPage1;
         private Button button4;
-        private TextBox textBox1;
-        private FlowLayoutPanel flowLayoutPanel1;
+        private TextBox tbtongtien;
+        private FlowLayoutPanel flpTable;
         private Button button1;
         private ComboBox comboBox4;
         private Button button3;
         private Button button2;
-        private ListView listView1;
+        private ListView listchitiet;
         private GroupBox groupBox4;
-        private ComboBox comboBox3;
+        private ComboBox cbbmonan;
         private Button btXoa;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown soluong;
         private Button btThem;
-        private ComboBox comboBox2;
-        private ComboBox comboBox1;
+        private ComboBox cbbmuc;
+        private ComboBox cbbthucdon;
         private TabPage tabPage2;
         private TabPage tabPage3;
         private ToolStripMenuItem thôngTinToolStripMenuItem;
