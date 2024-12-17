@@ -35,15 +35,14 @@
             quảnLýToolStripMenuItem = new ToolStripMenuItem();
             thôngTinToolStripMenuItem = new ToolStripMenuItem();
             trợGiúpToolStripMenuItem = new ToolStripMenuItem();
-            adminToolStripMenuItem = new ToolStripMenuItem();
+            btn_admin = new ToolStripMenuItem();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             button4 = new Button();
             tbtongtien = new TextBox();
-            flpTable = new FlowLayoutPanel();
             button1 = new Button();
             comboBox4 = new ComboBox();
-            button3 = new Button();
+            btnthanhtoan = new Button();
             button2 = new Button();
             listchitiet = new ListView();
             groupBox4 = new GroupBox();
@@ -72,6 +71,7 @@
             label1 = new Label();
             textBox9 = new TextBox();
             tabPage3 = new TabPage();
+            flpTable = new FlowLayoutPanel();
             menuStrip1.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -85,13 +85,12 @@
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { hệThốngToolStripMenuItem, quảnLýToolStripMenuItem, trợGiúpToolStripMenuItem, adminToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { hệThốngToolStripMenuItem, quảnLýToolStripMenuItem, trợGiúpToolStripMenuItem, btn_admin });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(882, 28);
             menuStrip1.TabIndex = 10;
             menuStrip1.Text = "menuStrip1";
-            menuStrip1.ItemClicked += menuStrip1_ItemClicked;
             // 
             // hệThốngToolStripMenuItem
             // 
@@ -124,9 +123,8 @@
             // thôngTinToolStripMenuItem
             // 
             thôngTinToolStripMenuItem.Name = "thôngTinToolStripMenuItem";
-            thôngTinToolStripMenuItem.Size = new Size(224, 26);
+            thôngTinToolStripMenuItem.Size = new Size(155, 26);
             thôngTinToolStripMenuItem.Text = "Thông tin";
-            thôngTinToolStripMenuItem.Click += thôngTinToolStripMenuItem_Click;
             // 
             // trợGiúpToolStripMenuItem
             // 
@@ -134,12 +132,12 @@
             trợGiúpToolStripMenuItem.Size = new Size(78, 24);
             trợGiúpToolStripMenuItem.Text = "Trợ giúp";
             // 
-            // adminToolStripMenuItem
+            // btn_admin
             // 
-            adminToolStripMenuItem.Name = "adminToolStripMenuItem";
-            adminToolStripMenuItem.Size = new Size(67, 24);
-            adminToolStripMenuItem.Text = "Admin";
-            adminToolStripMenuItem.Click += adminToolStripMenuItem_Click;
+            btn_admin.Name = "btn_admin";
+            btn_admin.Size = new Size(67, 24);
+            btn_admin.Text = "Admin";
+            btn_admin.Click += adminToolStripMenuItem_Click;
             // 
             // tabControl1
             // 
@@ -159,7 +157,7 @@
             tabPage1.Controls.Add(flpTable);
             tabPage1.Controls.Add(button1);
             tabPage1.Controls.Add(comboBox4);
-            tabPage1.Controls.Add(button3);
+            tabPage1.Controls.Add(btnthanhtoan);
             tabPage1.Controls.Add(button2);
             tabPage1.Controls.Add(listchitiet);
             tabPage1.Controls.Add(groupBox4);
@@ -190,15 +188,6 @@
             tbtongtien.Text = "0";
             tbtongtien.TextAlign = HorizontalAlignment.Right;
             // 
-            // flpTable
-            // 
-            flpTable.AutoScroll = true;
-            flpTable.Location = new Point(8, 16);
-            flpTable.Name = "flpTable";
-            flpTable.Size = new Size(417, 398);
-            flpTable.TabIndex = 28;
-            flpTable.Paint += flpTable_Paint;
-            // 
             // button1
             // 
             button1.Location = new Point(431, 351);
@@ -216,14 +205,15 @@
             comboBox4.Size = new Size(94, 28);
             comboBox4.TabIndex = 26;
             // 
-            // button3
+            // btnthanhtoan
             // 
-            button3.Location = new Point(758, 386);
-            button3.Name = "button3";
-            button3.Size = new Size(94, 29);
-            button3.TabIndex = 25;
-            button3.Text = "Thanh Toán";
-            button3.UseVisualStyleBackColor = true;
+            btnthanhtoan.Location = new Point(758, 386);
+            btnthanhtoan.Name = "btnthanhtoan";
+            btnthanhtoan.Size = new Size(94, 29);
+            btnthanhtoan.TabIndex = 25;
+            btnthanhtoan.Text = "Thanh Toán";
+            btnthanhtoan.UseVisualStyleBackColor = true;
+            btnthanhtoan.Click += btnthanhtoan_Click;
             // 
             // button2
             // 
@@ -233,7 +223,6 @@
             button2.TabIndex = 24;
             button2.Text = "Ưu Đãi";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
             // 
             // listchitiet
             // 
@@ -244,7 +233,6 @@
             listchitiet.TabIndex = 22;
             listchitiet.UseCompatibleStateImageBehavior = false;
             listchitiet.View = View.Details;
-            listchitiet.ItemSelectionChanged += listchitiet_ItemSelectionChanged;
             // 
             // groupBox4
             // 
@@ -494,11 +482,19 @@
             tabPage3.Text = "Đơn hàng";
             tabPage3.UseVisualStyleBackColor = true;
             // 
+            // flpTable
+            // 
+            flpTable.AutoScroll = true;
+            flpTable.Location = new Point(8, 16);
+            flpTable.Name = "flpTable";
+            flpTable.Size = new Size(417, 398);
+            flpTable.TabIndex = 28;
+            // 
             // MainfmNhanvien
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(882, 518);
+            ClientSize = new Size(882, 572);
             Controls.Add(tabControl1);
             Controls.Add(menuStrip1);
             Name = "MainfmNhanvien";
@@ -526,15 +522,14 @@
         private ToolStripMenuItem trợGiúpToolStripMenuItem;
         private ToolStripMenuItem đăngXuấtToolStripMenuItem;
         private ToolStripMenuItem thoátToolStripMenuItem;
-        private ToolStripMenuItem adminToolStripMenuItem;
+        private ToolStripMenuItem btn_admin;
         private TabControl tabControl1;
         private TabPage tabPage1;
         private Button button4;
         private TextBox tbtongtien;
-        private FlowLayoutPanel flpTable;
         private Button button1;
         private ComboBox comboBox4;
-        private Button button3;
+        private Button btnthanhtoan;
         private Button button2;
         private ListView listchitiet;
         private GroupBox groupBox4;
@@ -564,5 +559,6 @@
         private TextBox textBox2;
         private Label label1;
         private TextBox textBox9;
+        private FlowLayoutPanel flpTable;
     }
 }

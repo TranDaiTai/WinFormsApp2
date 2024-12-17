@@ -32,10 +32,10 @@ namespace QuanLySuShi.DAO
             return null; // Trả về null nếu không có dữ liệu.
         }
         // Hàm tạo phiếu đặt món mới
-        public static bool CreatePhieuDatMon(string maNhanVien, string machinhanh,string maPhieuMoi)
+        public static bool CreatePhieuDatMon(string maNhanVien,string maKhachhang, string machinhanh,string maPhieuMoi)
         {
-            var query = "INSERT INTO PhieuDatMon (MaPhieu, NhanVienLap, NgayLap, MaChiNhanh, LoaiPhieu) " +
-                        "VALUES (@MaPhieu, @NhanVienLap, @NgayLap, @MaChiNhanh, @LoaiPhieu);";
+            var query = "INSERT INTO PhieuDatMon (MaPhieu, NhanVienLap, NgayLap, MaChiNhanh, LoaiPhieu,MaKhachhang) " +
+                        "VALUES (@MaPhieu, @NhanVienLap, @NgayLap, @MaChiNhanh, @LoaiPhieu,@makhachhang);";
 
             DateTime ngayDat = DateTime.Now;
 
@@ -47,7 +47,9 @@ namespace QuanLySuShi.DAO
                 { "@NhanVienLap", maNhanVien },
                 { "@NgayLap", ngayDat },
                 { "@MaChiNhanh", machinhanh },
-                { "@LoaiPhieu", hinhThuc }
+                { "@LoaiPhieu", hinhThuc },
+                { "makhachhang",maKhachhang}
+
             };
 
             // Thực thi câu lệnh SQL và trả về kết quả
@@ -58,13 +60,13 @@ namespace QuanLySuShi.DAO
         {
             // Câu truy vấn SQL để lấy giá trị lớn nhất của phần số trong mã phiếu
             string query = @"
-        SELECT TOP 1 
-            MAX(CAST(SUBSTRING(MaPhieu, 3, LEN(MaPhieu)) AS INT)) AS MaxNum
-        FROM PhieuDatMon
-        WHERE MaPhieu LIKE 'PD%'
-        GROUP BY MaPhieu
-        ORDER BY MaxNum DESC;
-    ";
+                SELECT TOP 1 
+                    MAX(CAST(SUBSTRING(MaPhieu, 3, LEN(MaPhieu)) AS INT)) AS MaxNum
+                FROM PhieuDatMon
+                WHERE MaPhieu LIKE 'PD%'
+                GROUP BY MaPhieu
+                ORDER BY MaxNum DESC;
+            ";
 
             DataTable dataTable = DataProvider.ExecuteSelectQuery(query);
 

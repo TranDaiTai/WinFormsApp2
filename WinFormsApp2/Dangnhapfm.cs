@@ -11,7 +11,7 @@ namespace QuanLySuShi
 {
     public partial class Dangnhap : Form
     {
-        public static NhanVien nv = null;
+        public static User nv = null;
         //public static Khachhang kh = null;
 
 
@@ -31,7 +31,6 @@ namespace QuanLySuShi
                 return;
             }
             bool isFound = false;
-            List<DangNhap> listdn = null;
             if (loai == 1)
             {
                 isFound = DangNhapDAO.TryDangNhapKH(tendangnhap, matkhau);
@@ -44,15 +43,19 @@ namespace QuanLySuShi
             {
                 if (loai == 0)
                 {
+                   
+                    Dangnhap.nv = NhanvienDAO.GetNhanVienByTaiKhoan(tendangnhap);
+                    (Dangnhap.nv as NhanVien).QuanlyChiNhanh = NhanvienDAO.Is_QuanLy((Dangnhap.nv as NhanVien).MaDinhDanh);
+
                     MainfmNhanvien f = new MainfmNhanvien();
-                    Dangnhap.nv = NhanVienDAO.GetNhanVienByTaiKhoan(tendangnhap);
                     f.Show();
 
                 }
                 else
                 {
-                    Mainfmkhachhang f = new Mainfmkhachhang();
+
                     //Dangnhap.kh = KhachHangDAO.GetKhachHangByTaiKhoan(tendangnhap);
+                    Mainfmkhachhang f = new Mainfmkhachhang();
                     f.Show();
 
                 }

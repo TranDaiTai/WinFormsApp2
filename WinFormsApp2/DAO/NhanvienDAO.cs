@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace QuanLySuShi.DAO
 {
-    public class NhanVienDAO
+    public class NhanvienDAO
     {
         // Lấy thông tin nhân viên theo mã nhân viên
         public static NhanVien GetNhanVienByMaNhanVien(string maNhanVien)
         {
-            string query = "SELECT * FROM NhanVien WHERE MaNhanVien = @MaNhanVien";
+            string query = "SELECT * FROM NhanVien  WHERE MaNhanVien = @MaNhanVien";
 
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
@@ -68,5 +68,179 @@ namespace QuanLySuShi.DAO
 
             return nhanViens;
         }
+        public static string GetTenBoPhan(string mabophan )
+        {
+            string tenbp = null;
+            string query = "select tenbophan from bophan where mabophan =@mabophan";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "@MaBoPhan", mabophan }
+            };
+
+            // Thực thi truy vấn
+            DataTable dataTable = DataProvider.ExecuteSelectQuery(query, parameters);
+
+            // Kiểm tra kết quả trả về
+            if (dataTable != null && dataTable.Rows.Count > 0)
+            {
+                tenbp = dataTable.Rows[0]["TenBoPhan"]?.ToString();
+            }
+
+            return tenbp; // Trả về tên bộ phận (hoặc null nếu không tìm thấy)
+        }
+        public static bool Is_QuanLy(string manhanvien)
+        {
+            string query = "SELECT COUNT(1) FROM chinhanh JOIN nhanvien ON nhanvien.machinhanh = chinhanh.machinhanh WHERE Chinhanh.NhanVienQuanLy = @manhanvien";
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "@manhanvien", manhanvien }
+            };
+
+            // Thực thi truy vấn và lấy một giá trị duy nhất
+            object result = DataProvider.ExecuteScalarQuery(query, parameters);
+
+            // Kiểm tra nếu có kết quả
+            if (result != null && Convert.ToInt32(result) > 0)
+            {
+                return true; // Nếu có dòng nào trả về, tức là nhân viên là quản lý
+            }
+
+            return false; // Nếu không có kết quả, nhân viên không phải quản lý
+        }
+
+        public static string GetMaxMakhachhang()
+        {
+            // Câu truy vấn SQL để lấy giá trị lớn nhất của phần số trong mã phiếu
+            string query = @"
+                SELECT TOP 1 
+                    MAX(CAST(SUBSTRING(MaKhachHang, 3, LEN(MaKhachHang)) AS INT)) AS MaxNum
+                FROM KhachHang
+                WHERE MaKhachHang LIKE 'KH%'
+                GROUP BY MaKhachHang
+                ORDER BY MaxNum DESC;
+            ";
+
+            DataTable dataTable = DataProvider.ExecuteSelectQuery(query);
+
+            if (dataTable != null && dataTable.Rows.Count > 0)
+            {
+                int maxNum = Convert.ToInt32(dataTable.Rows[0]["MaxNum"]);
+
+                // Tạo mã phiếu tiếp theo bằng cách tăng giá trị maxNum
+                string newPhieu = "KH" + (maxNum + 1); // Đảm bảo định dạng 3 chữ số
+                return newPhieu;
+            }
+            else
+            {
+                // Nếu không có phiếu nào, trả về mã phiếu đầu tiên là PD001
+                return "KH001";
+            }
+        }
+        public static List<NhanVien> GetNhanVienByChiNhanhVaHoTen(string maChiNhanh, string hoTen)
+        {
+            List<NhanVien> nhanViens = new List<NhanVien>();
+
+            // Truy vấn SQL để lấy nhân viên theo mã chi nhánh và họ tên
+            string query = @"
+            SELECT * FROM NhanVien 
+            WHERE MaChiNhanh = @MaChiNhanh 
+            AND HoTen LIKE @HoTen";
+
+            // Tạo đối tượng chứa các tham số cho truy vấn
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+        {
+            { "@MaChiNhanh", maChiNhanh },
+            { "@HoTen", "%" + hoTen + "%" } // Sử dụng LIKE để tìm kiếm theo họ tên
+        };
+
+            // Thực thi truy vấn và nhận kết quả từ cơ sở dữ liệu
+            DataTable dataTable = DataProvider.ExecuteSelectQuery(query, parameters);
+
+            // Kiểm tra nếu có dữ liệu trả về
+            if (dataTable != null)
+            {
+                // Lặp qua các dòng dữ liệu và tạo đối tượng NhanVien
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    NhanVien nhanVien = NhanVien.FromDataRow(row);
+                    nhanViens.Add(nhanVien); // Thêm vào danh sách kết quả
+                }
+            }
+
+            return nhanViens;
+        }
+        public static bool ChuyenNhanSu(string maNhanVien, string maBoPhanMoi, string maChiNhanhMoi, DateTime ngayBatDau, DateTime? ngayKetThuc)
+        {
+          
+            // Bước 1: Cập nhật thông tin của nhân viên trong bảng NhanVien
+            string queryUpdateNhanVien = @"
+            UPDATE NhanVien
+            SET 
+                MaBoPhan = @MaBoPhanMoi,
+                MaChiNhanh = @MaChiNhanhMoi
+            WHERE MaNhanVien = @MaNhanVien
+        ";
+
+            Dictionary<string, object> parametersUpdate = new Dictionary<string, object>
+            {
+                { "@MaNhanVien", maNhanVien },
+                { "@MaBoPhanMoi", maBoPhanMoi },
+                { "@MaChiNhanhMoi", maChiNhanhMoi },
+            };
+
+            bool rowsAffected = DataProvider.ExecuteNonQuery(queryUpdateNhanVien, parametersUpdate);
+
+            // Bước 2: Thêm lịch sử chuyển công tác vào bảng LichSuLamViec
+            string queryInsertLichSu = @"
+                INSERT INTO LichSuLamViec (MaLS, MaNhanVien, MaChiNhanh, NgayBatDau, NgayKetThuc)
+                VALUES (@MaLS, @MaNhanVien, @MaChiNhanh, @NgayBatDau, @NgayKetThuc)
+            ";
+
+            string maLS = GetMaxLSLV(); // Hàm này sẽ tạo mã lịch sử làm việc mới (chưa có sẵn)
+
+            Dictionary<string, object> parametersInsertLichSu = new Dictionary<string, object>
+            {
+                { "@MaLS", maLS },
+                { "@MaNhanVien", maNhanVien },
+                { "@MaChiNhanh", maChiNhanhMoi },
+                { "@NgayBatDau", ngayBatDau },
+                { "@NgayKetThuc", ngayKetThuc ?? (object)DBNull.Value }
+            };
+
+            DataProvider.ExecuteNonQuery(queryInsertLichSu, parametersInsertLichSu);
+
+            return true; // Nếu cả hai câu truy vấn thành công
+        }
+
+        public static string GetMaxLSLV()
+        {
+            // Câu truy vấn SQL để lấy giá trị lớn nhất của phần số trong mã phiếu
+            string query = @"
+                SELECT TOP 1 
+                    MAX(CAST(SUBSTRING(MaLS, 3, LEN(MaLS)) AS INT)) AS MaxNum
+                FROM LichSuLamViec
+                WHERE MaLS LIKE 'LS%'
+                GROUP BY MaLS
+                ORDER BY MaxNum DESC;
+            ";
+
+            DataTable dataTable = DataProvider.ExecuteSelectQuery(query);
+
+            if (dataTable != null && dataTable.Rows.Count > 0)
+            {
+                int maxNum = Convert.ToInt32(dataTable.Rows[0]["MaxNum"]);
+
+                // Tạo mã phiếu tiếp theo bằng cách tăng giá trị maxNum
+                string newPhieu = "LS" + (maxNum + 1); // Đảm bảo định dạng 3 chữ số
+                return newPhieu;
+            }
+            else
+            {
+                // Nếu không có phiếu nào, trả về mã phiếu đầu tiên là PD001
+                return "LS001";
+            }
+        }
+
     }
 }

@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,20 +16,15 @@ namespace QuanLySuShi
 {
     public partial class MainfmNhanvien : Form
     {
-        private Button selectedButton = null; // Lưu button đang chọn
+        private Button selected_table = null; // Lưu button đang chọn
+        private string current_maphieu = null; // Lưu button đang chọn
 
         public MainfmNhanvien()
         {
             InitializeComponent();
             Loadtable();
             LoadThucdon();
-        }
-
-
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            PhanQuyen();
         }
 
         private void thoátToolStripMenuItem_Click(object sender, EventArgs e)
@@ -43,16 +39,6 @@ namespace QuanLySuShi
             this.Close();
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
         private void adminToolStripMenuItem_Click(object sender, EventArgs e)
         {
             adminfm adminfm = new adminfm();
@@ -60,20 +46,15 @@ namespace QuanLySuShi
 
         }
 
-        private void thôngTinToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tạoThẻToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btThem_Click(object sender, EventArgs e)
         {
+            if ( selected_table == null)
+            {
+                MessageBox.Show("Vui lòng chọn Bàn.", "Thông báo");
+                return;
+            }
 
-            // Kiểm tra xem đã chọn món ăn và nhập số lượng chưa
+
             if (cbbmonan.SelectedItem == null || string.IsNullOrEmpty(soluong.Text))
             {
                 MessageBox.Show("Vui lòng chọn món ăn và nhập số lượng hợp lệ.", "Thông báo");
@@ -86,34 +67,61 @@ namespace QuanLySuShi
             // Lấy số lượng từ textbox
             int soLuong;
             int.TryParse(soluong.Text, out soLuong);
-            Table selectTable = (selectedButton.Tag as Table);
-         
+            Table selectTable = (selected_table.Tag as Table);
 
-            string maphieu = PhieudatmonDAO.GetPhieuDatMonByTableId((selectedButton.Tag as Table).TableID);
+
+           
             bool isSuccess = false;
             string mamonan = selectedMonAn.MaMonAn;
-            if (string.IsNullOrEmpty(maphieu))
+            if (string.IsNullOrEmpty(current_maphieu))
             {
-                string maPhieuMoi = PhieudatmonDAO.GetMaxPhieuDatMon(); // Hoặc có thể là chuỗi tự tạo, tùy vào quy tắc trong hệ thống của bạn.
 
-                isSuccess = PhieudatmonDAO.CreatePhieuDatMon( Dangnhap.nv.MaNhanVien, Dangnhap.nv.MaChiNhanh, maPhieuMoi);
+                //// Hỏi người dùng xem có phải khách hàng thân thiết không
+                //DialogResult result = MessageBox.Show("Khách hàng có phải là khách hàng thân thiết không?",
+                //                                      "Xác nhận khách hàng",
+                //                                      MessageBoxButtons.YesNo,
+                //                                      MessageBoxIcon.Question);
+
+                //if (result == DialogResult.Yes)
+                //{
+                //    // Mở input để nhập thông tin khách hàng thân thiết
+                //    string maKhachHang = Microsoft.VisualBasic.Interaction.InputBox(
+                //                          "Vui lòng nhập mã khách hàng:",
+                //                          "Nhập mã khách hàng thân thiết",
+                //                          "");
+
+                //    if (string.IsNullOrEmpty(maKhachHang))
+                //    {
+                //        MessageBox.Show("Mã khách hàng không được để trống!", "Lỗi");
+                //        return;
+                //    }
+
+                //    // Thêm logic xử lý khách hàng thân thiết ở đây (ví dụ: kiểm tra mã khách hàng)
+                //    MessageBox.Show($"Khách hàng thân thiết: {maKhachHang}", "Thông báo");
+                //}
+
+
+                string maPhieuMoi = PhieudatmonDAO.GetMaxPhieuDatMon(); // Hoặc có thể là chuỗi tự tạo, tùy vào quy tắc trong hệ thống của bạn.
+                string makhachhang = NhanvienDAO.GetMaxMakhachhang();
+
+
+                isSuccess = PhieudatmonDAO.CreatePhieuDatMon(Dangnhap.nv.MaDinhDanh, makhachhang, (Dangnhap.nv as NhanVien).MaChiNhanh, maPhieuMoi);
                 if (isSuccess)
                 {
-                   ;
-                    if (PhieudatmontructiepDAO.CreatePhieuDatMonTrucTiep(maPhieuMoi, selectTable.TableID)&&ChitietphieuDAO.AddChitietPhieu(maPhieuMoi, mamonan, soLuong))
+                    current_maphieu = maPhieuMoi;
+                    if (PhieudatmontructiepDAO.CreatePhieuDatMonTrucTiep(maPhieuMoi, selectTable.TableID) && ChitietphieuDAO.AddChitietPhieu(maPhieuMoi, mamonan, soLuong))
                         MessageBox.Show("Tạo Phiếu và Thêm món ăn vào phiếu thành công!", "Thông báo");
-                    selectTable.Status =Table.GetTableStatus(selectTable.TableID);
+                    selectTable.Status = Table.GetTableStatus(selectTable.TableID);
                     Loadtable();
                     showPhieudat(selectTable.TableID);
                 }
-                // Cập nhật lại danh sách chi tiết phiếu
-                
+
             }
             else
             {
-                
+
                 // Thêm vào cơ sở dữ liệu
-                isSuccess = ChitietphieuDAO.AddChitietPhieu(maphieu, mamonan, soLuong);
+                isSuccess = ChitietphieuDAO.AddChitietPhieu(current_maphieu, mamonan, soLuong);
 
                 // Thông báo kết quả
                 if (isSuccess)
@@ -164,16 +172,16 @@ namespace QuanLySuShi
             listchitiet.Columns.Add("Tên Món", 100); // Cột 2: Giá.
             listchitiet.Columns.Add("Giá", 100); // Cột 2: Giá.
             listchitiet.Columns.Add("Số lượng", 100); // Cột 2: Giá.
-           
+
 
             decimal totalprice = 0;
 
             CultureInfo culture = new CultureInfo("vi-VN");
 
-            string maPhieu = PhieudatmonDAO.GetPhieuDatMonByTableId(id_table);
-            if (!string.IsNullOrEmpty(maPhieu))
+          
+            if (!string.IsNullOrEmpty(current_maphieu))
             {
-                List<Chitietphieudat> list = ChitietphieuDAO.GetChitietPhieuByMaPhieu(maPhieu);
+                List<Chitietphieudat> list = ChitietphieuDAO.GetChitietPhieuByMaPhieu(current_maphieu);
                 foreach (Chitietphieudat item in list)
                 {
                     ListViewItem lsitem = new ListViewItem(item.MaMonAn.ToString());
@@ -186,26 +194,17 @@ namespace QuanLySuShi
                     totalprice += monan.GiaTien * item.SoLuong;
                 }
                 tbtongtien.Text = totalprice.ToString("c", culture);
-               
+
             }
 
         }
 
         private void Btn_Click(object? sender, EventArgs e)
         {
-            selectedButton = (sender as Button);
+            selected_table = (sender as Button);
             string id_table = ((sender as Button).Tag as Table).TableID;
+            current_maphieu = PhieudatmonDAO.GetPhieuDatMonByTableId(id_table);
             showPhieudat(id_table);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void flpTable_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
         void LoadThucdon()
@@ -252,10 +251,6 @@ namespace QuanLySuShi
             LoadMonAnByMuc();
         }
 
-        private void listchitiet_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-        {
-           
-        }
 
         private void btXoa_Click(object sender, EventArgs e)
         {
@@ -267,7 +262,6 @@ namespace QuanLySuShi
 
                 // Lấy các thông tin cần thiết từ mục đã chọn
                 string maMonAn = selectedItem.SubItems[0].Text;
-                string maphieu = PhieudatmonDAO.GetPhieuDatMonByTableId((selectedButton.Tag as Table).TableID);
 
                 // Thực hiện hành động xóa (ví dụ: xóa khỏi cơ sở dữ liệu hoặc danh sách)
                 DialogResult result = MessageBox.Show($"Bạn có chắc chắn muốn xóa món ăn {maMonAn}?", "Xóa món ăn", MessageBoxButtons.YesNo);
@@ -276,11 +270,11 @@ namespace QuanLySuShi
                     bool isDeleted = false;
 
                     // Thực hiện xóa trong cơ sở dữ liệu hoặc danh sách (nếu có)
-                    isDeleted= ChitietphieuDAO.XoaMonAnTheoPhieu(maMonAn,maphieu); // Đây là ví dụ, thay đổi tùy theo DAO của bạn
+                    isDeleted = ChitietphieuDAO.XoaMonAnTheoPhieu(maMonAn, current_maphieu); // Đây là ví dụ, thay đổi tùy theo DAO của bạn
                     if (isDeleted)
                     {
                         MessageBox.Show("Món ăn đã được xóa thành công.");
-                        showPhieudat((selectedButton.Tag as Table).TableID);
+                        showPhieudat((selected_table.Tag as Table).TableID);
                     }
 
                     else
@@ -290,6 +284,43 @@ namespace QuanLySuShi
             else
             {
                 MessageBox.Show("Vui lòng chọn món ăn để xóa.");
+            }
+        }
+        private void PhanQuyen()
+        {
+            NhanVien nhanvien = Dangnhap.nv as NhanVien;
+
+            if (nhanvien.QuanlyChiNhanh)
+            {
+                btn_admin.Enabled = true;
+            }
+            else { btn_admin.Enabled = false; }
+        }
+
+        private void btnthanhtoan_Click(object sender, EventArgs e)
+        {
+            Table selectTable = (selected_table.Tag as Table);
+           
+
+            if (current_maphieu != null )
+            {
+
+                CultureInfo culture = new CultureInfo("vi-VN");
+                string mahoadon = HoaDonDAO.GetMaxHoaDon();
+                decimal totalprice = Decimal.Parse(tbtongtien.Text, NumberStyles.Currency, culture);
+                HoaDonDAO.AddHoaDon(mahoadon, (Dangnhap.nv as NhanVien).MaChiNhanh, current_maphieu, totalprice, null);
+
+
+                selectTable.Status = Table.GetTableStatus(selectTable.TableID);
+                Loadtable();
+                showPhieudat(selectTable.TableID);
+
+                MessageBox.Show($"Tổng hoá đơn của quý khách là {totalprice}", "thông báo");
+                current_maphieu = null;
+            }
+            else
+            {
+                MessageBox.Show("vui lòng chọn bàn khác để thanh toán", "thông báo"); 
             }
         }
     }

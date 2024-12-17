@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLySuShi.DAO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,9 @@ namespace QuanLySuShi.DTO
         public string MaChiNhanh { get; set; } //   NOT NULL
 
         // Constructor
-        public Phieudatmon(string maPhieu, string maKhachHang, string maChiNhanh)
+        public Phieudatmon(string maKhachHang, string maChiNhanh)
         {
-            MaPhieu = maPhieu;
+            MaPhieu =  PhieudatmonDAO.GetMaxPhieuDatMon(); 
             MaKhachHang = maKhachHang;
             MaChiNhanh = maChiNhanh;
         }
