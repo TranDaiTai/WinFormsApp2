@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLySuShi.DAO;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -33,6 +34,17 @@ namespace QuanLySuShi.DTO
                 TenBoPhan = row["TenBoPhan"].ToString(),
                 Luong = Convert.ToDecimal(row["Luong"])
             };
+        }
+        public static void LoadBoPhan(ComboBox cbx)
+        {
+            List<BoPhan> listbophans = BoPhanDAO.GetBoPhan();
+
+            foreach (var item in listbophans)
+            {
+                cbx.Items.Add(item);
+                cbx.DisplayMember = "TenBoPhan";
+
+            }
         }
     }
 }

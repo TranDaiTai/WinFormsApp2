@@ -10,47 +10,21 @@ namespace QuanLySuShi.DAO
     {
         public static bool AddChitietPhieu(string MaPhieu, string MaMonAn, int SoLuong)
         {
-            string sql = @"
-    BEGIN
-        -- Tính giá
-        declare @gia money;
-        select @gia = cast(@so_luong * MonAn.GiaTien as money)
-        from MonAn 
-        where MonAn.MaMonAn = @id_mon_an;
+            // Tên stored procedure
+            string storedProcedure = "EXEC sp_AddOrUpdateChiTietPhieu @id_phieu, @id_mon_an, @so_luong";
 
-        IF EXISTS (SELECT 1 FROM ChiTietPhieuDat as ctpd 
-                   JOIN MonAn ON ctpd.MaMonAn = MonAn.MaMonAn 
-                   WHERE Maphieu = @id_phieu AND ctpd.Mamonan = @id_mon_an)
-        BEGIN
-            UPDATE ChiTietPhieuDat
-            SET SoLuong = SoLuong + @so_luong, 
-                Gia = @gia
-            WHERE Maphieu = @id_phieu AND Mamonan = @id_mon_an;
-
-            PRINT N'Cập nhật số lượng món ăn trong phiếu đặt món thành công.';
-        END
-        ELSE
-        BEGIN
-            INSERT INTO ChiTietPhieuDat (Maphieu, MaMonAn, SoLuong, Gia)
-            VALUES (@id_phieu, @id_mon_an, @so_luong, @gia);
-
-            PRINT N'Thêm món vào phiếu đặt món thành công.';
-        END;
-    END;
-    ";
-
-
-            // Tạo dictionary chứa các tham số truyền vào stored procedure
+            // Tạo dictionary chứa các tham số
             Dictionary<string, object> parameters = new Dictionary<string, object>
-            {
-                { "@id_phieu", MaPhieu },
-                { "@id_mon_an", MaMonAn },
-                { "@so_luong", SoLuong }
-            };
+    {
+        { "@id_phieu", MaPhieu },
+        { "@id_mon_an", MaMonAn },
+        { "@so_luong", SoLuong }
+    };
 
-            // Thực thi stored procedure và trả về kết quả
-            return DataProvider.ExecuteNonQuery(sql, parameters);
+            // Gọi stored procedure và trả về kết quả
+            return DataProvider.ExecuteNonQuery(storedProcedure, parameters);
         }
+
 
 
         public static bool XoaMonAnTheoPhieu(string maMonAn, string maPhieu)

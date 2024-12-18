@@ -23,7 +23,7 @@ namespace QuanLySuShi
         {
             InitializeComponent();
             Loadtable();
-            LoadThucdon();
+            ThucDon.LoadThucdon(cbbthucdon,(Dangnhap.user as NhanVien).MaChiNhanh);
             PhanQuyen();
         }
 
@@ -105,7 +105,7 @@ namespace QuanLySuShi
                 string makhachhang = NhanvienDAO.GetMaxMakhachhang();
 
 
-                isSuccess = PhieudatmonDAO.CreatePhieuDatMon(Dangnhap.nv.MaDinhDanh, makhachhang, (Dangnhap.nv as NhanVien).MaChiNhanh, maPhieuMoi);
+                isSuccess = PhieudatmonDAO.CreatePhieuDatMon(Dangnhap.user.MaDinhDanh, makhachhang, (Dangnhap.user as NhanVien).MaChiNhanh, maPhieuMoi);
                 if (isSuccess)
                 {
                     current_maphieu = maPhieuMoi;
@@ -124,17 +124,12 @@ namespace QuanLySuShi
                 isSuccess = ChitietphieuDAO.AddChitietPhieu(current_maphieu, mamonan, soLuong);
 
                 // Thông báo kết quả
-                if (isSuccess)
-                {
+               
                     MessageBox.Show("Thêm món ăn vào phiếu thành công!", "Thông báo");
 
                     // Cập nhật lại danh sách chi tiết phiếu
                     showPhieudat(selectTable.TableID);
-                }
-                else
-                {
-                    MessageBox.Show("Thêm món ăn thất bại. Vui lòng thử lại.", "Thông báo");
-                }
+               
             }
         }
 
@@ -185,7 +180,7 @@ namespace QuanLySuShi
                 foreach (Chitietphieudat item in list)
                 {
                     ListViewItem lsitem = new ListViewItem(item.MaMonAn.ToString());
-                    MonAn monan = MonAnDAO.GetMonAnByMaMonAn(item.MaMonAn);
+                    MonAn monan = MonAnDAO.GetMonAn(maMonAn: item.MaMonAn)[0];
                     lsitem.SubItems.Add(monan.TenMonAn.ToString());
                     lsitem.SubItems.Add(monan.GiaTien.ToString("c", culture));
                     lsitem.SubItems.Add(item.SoLuong.ToString());
@@ -207,48 +202,16 @@ namespace QuanLySuShi
             showPhieudat(id_table);
         }
 
-        void LoadThucdon()
-        {
-            List<ThucDon> listtd = ThucDonDAO.GetAllThucDon();
-            cbbthucdon.DataSource = listtd;
-            cbbthucdon.DisplayMember = "TenThucDon";
-        }
-        void LoadMucByThucdon()
-        {
-            // Lấy MaThucDon của thực đơn đã chọn
-            string maThucDon = ((ThucDon)cbbthucdon.SelectedItem).MaThucDon;
-
-            // Lấy danh sách các mục (mục thực đơn) theo MaThucDon
-            List<Muc> listMuc = MucDAO.GetMucsByMaThucDon(maThucDon);
-
-            // Hiển thị các mục vào combobox hoặc danh sách mục
-            cbbmuc.DataSource = listMuc;
-            cbbmuc.DisplayMember = "TenMuc"; // Hiển thị tên mục
-        }
-
-        void LoadMonAnByMuc()
-        {
-            // Lấy MaMuc của mục thực đơn đã chọn
-            string maMuc = ((Muc)cbbmuc.SelectedItem).MaMuc;
-
-            // Lấy danh sách món ăn theo MaMuc
-            List<MonAn> listMonAn = MonAnDAO.GetMonAnByMuc(maMuc);
-
-            // Hiển thị danh sách món ăn vào combobox hoặc danh sách món ăn
-            cbbmonan.DataSource = listMonAn;
-            cbbmonan.DisplayMember = "TenMonAn"; // Hiển thị tên món ăn
-        }
-
         private void cbbthucdon_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Khi người dùng thay đổi thực đơn, tải lại các mục theo thực đơn đã chọn
-            LoadMucByThucdon();
+            Muc.LoadMucByThucdon(cbbmuc,cbbthucdon);
         }
 
         private void cbbMuc_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Khi người dùng thay đổi mục, tải lại các món ăn theo mục đã chọn
-            LoadMonAnByMuc();
+            MonAn.LoadMonAnByMuc(cbbmuc , cbbmonan);
         }
 
 
@@ -288,7 +251,7 @@ namespace QuanLySuShi
         }
         private void PhanQuyen()
         {
-            NhanVien nhanvien = Dangnhap.nv as NhanVien;
+            NhanVien nhanvien = Dangnhap.user as NhanVien;
 
             if (nhanvien.QuanlyChiNhanh)
             {
@@ -308,7 +271,7 @@ namespace QuanLySuShi
                 CultureInfo culture = new CultureInfo("vi-VN");
                 string mahoadon = HoaDonDAO.GetMaxHoaDon();
                 decimal totalprice = Decimal.Parse(tbtongtien.Text, NumberStyles.Currency, culture);
-                HoaDonDAO.AddHoaDon(mahoadon, (Dangnhap.nv as NhanVien).MaChiNhanh, current_maphieu, totalprice, null);
+                HoaDonDAO.AddHoaDon(mahoadon, (Dangnhap.user as NhanVien).MaChiNhanh, current_maphieu, totalprice, null);
 
 
                 selectTable.Status = Table.GetTableStatus(selectTable.TableID);
@@ -317,6 +280,8 @@ namespace QuanLySuShi
 
                 MessageBox.Show($"Tổng hoá đơn của quý khách là {totalprice}", "thông báo");
                 current_maphieu = null;
+                selected_table = null; 
+                listchitiet.Items.Clear();
             }
             else
             {

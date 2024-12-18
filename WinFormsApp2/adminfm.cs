@@ -19,38 +19,18 @@ namespace QuanLySuShi
         public adminfm()
         {
             InitializeComponent();
-            LoadChinhanh(cbbchinhanhdt);
-            LoadChinhanh(cbbchinhanhds);
+            ChiNhanh.LoadChinhanh(cbbchinhanhdt);
+            ChiNhanh.LoadChinhanh(cbbchinhanhds);
 
-            LoadChinhanh(cbbchinhanhcns);
-            LoadChinhanh(cbbchuyenchinhanhcns);
+            ChiNhanh.LoadChinhanh(cbbchinhanhcns);
+            ChiNhanh.LoadChinhanh(cbbchuyenchinhanhcns);
 
-            LoadBoPhan(cbbchuyenbophancns);
+            BoPhan.LoadBoPhan(cbbchuyenbophancns);
 
         }
 
-        private void LoadChinhanh(ComboBox cbx)
-        {
-            List<ChiNhanh> listchinhanhs = ChiNhanhDAO.GetAllChiNhanh();
-
-            foreach (var item in listchinhanhs)
-            {
-                cbx.Items.Add(item);
-                cbx.DisplayMember = "TenChiNhanh";
-
-            }
-        }
-        private void LoadBoPhan(ComboBox cbx)
-        {
-            List<BoPhan> listchinhanhs = BoPhanDAO.GetAllBoPhan();
-
-            foreach (var item in listchinhanhs)
-            {
-                cbx.Items.Add(item);
-                cbx.DisplayMember = "TenBoPhan";
-
-            }
-        }
+     
+       
         private void label29_Click(object sender, EventArgs e)
         {
 
@@ -63,10 +43,8 @@ namespace QuanLySuShi
                 MessageBox.Show("vui lòng chọn chi nhánh ");
                 return;
             }
-            DateTime from = DateTime.Parse(dtbpFromdt.Text);
-            DateTime to = DateTime.Parse(dtbptodt.Text);
 
-            dtgvDoanhthu.DataSource = HoaDonDAO.GetHoaDonFromTo(from, to, (cbbchinhanhdt.SelectedItem as ChiNhanh).MaChiNhanh);
+            HoaDon.GetHoaDonFromTo(dtbpFromdt, dtbptodt, cbbchinhanhdt, dtgvDoanhthu);
             dtgvDoanhthu.Columns["MaUuDai"].Visible = false;
             dtgvDoanhthu.Columns["MaChiNhanh"].Visible = false;
             decimal tongtien = 0;

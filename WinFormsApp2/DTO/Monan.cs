@@ -32,5 +32,30 @@ namespace QuanLySuShi.DTO
             HoTroGiao = Convert.ToBoolean(row["HoTroGiao"]);
             MaMuc = row["MaMuc"].ToString();
         }
+        public static void LoadMonAnByMuc(ComboBox cbbmuc ,ComboBox cbbmonan)
+        {
+            // Lấy MaMuc của mục thực đơn đã chọn
+            string maMuc = ((Muc)cbbmuc.SelectedItem).MaMuc;
+
+            // Lấy danh sách món ăn theo MaMuc
+            List<MonAn> listMonAn = MonAnDAO.GetMonAn(maMuc: maMuc);
+
+            // Hiển thị danh sách món ăn vào combobox hoặc danh sách món ăn
+            cbbmonan.DisplayMember = "TenMonAn"; // Hiển thị tên món ăn
+            foreach (var item in listMonAn)
+            {
+                cbbmonan.Items.Add(item);
+                cbbmonan.DisplayMember = "TenMonAn";
+
+            }
+        }
+        public MonAn(DataGridViewRow row)
+        {
+            MaMonAn = row.Cells["MaMonAn"].Value.ToString();
+            TenMonAn = row.Cells["TenMonAn"].Value.ToString();
+            GiaTien = Convert.ToDecimal(row.Cells["GiaTien"].Value);
+            HoTroGiao = Convert.ToBoolean(row.Cells["HoTroGiao"].Value);
+            MaMuc = row.Cells["MaMuc"].Value.ToString();
+        }
     }
 }

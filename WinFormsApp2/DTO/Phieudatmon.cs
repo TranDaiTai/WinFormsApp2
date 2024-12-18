@@ -1,6 +1,7 @@
 ﻿using QuanLySuShi.DAO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace QuanLySuShi.DTO
 {
-    public class Phieudatmon
+    public class PhieuDatMon
     {
         public string MaPhieu { get; set; } //   primary key
         public DateTime? NgayLap { get; set; } // [date] NULL
@@ -18,7 +19,7 @@ namespace QuanLySuShi.DTO
         public string MaChiNhanh { get; set; } //   NOT NULL
 
         // Constructor
-        public Phieudatmon(string maKhachHang, string maChiNhanh)
+        public PhieuDatMon(string maKhachHang, string maChiNhanh)
         {
             MaPhieu =  PhieudatmonDAO.GetMaxPhieuDatMon(); 
             MaKhachHang = maKhachHang;
@@ -26,7 +27,7 @@ namespace QuanLySuShi.DTO
         }
 
         // Optional constructor with all properties
-        public Phieudatmon(string maPhieu, DateTime? ngayLap, string loaiPhieu, string nhanVienLap, string maKhachHang, string maChiNhanh)
+        public PhieuDatMon(string maPhieu, DateTime? ngayLap, string loaiPhieu, string nhanVienLap, string maKhachHang, string maChiNhanh)
         {
             MaPhieu = maPhieu;
             NgayLap = ngayLap;
@@ -36,7 +37,15 @@ namespace QuanLySuShi.DTO
             MaChiNhanh = maChiNhanh;
         }
 
-        // Default constructor
-        public Phieudatmon() { }
+        // Constructor lấy dữ liệu từ DataRow
+        public PhieuDatMon(DataRow row)
+        {
+            MaPhieu = row["MaPhieu"].ToString();
+            NgayLap = row["NgayLap"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(row["NgayLap"]);
+            LoaiPhieu = row["LoaiPhieu"].ToString();
+            NhanVienLap = row["NhanVienLap"].ToString();
+            MaKhachHang = row["MaKhachHang"].ToString();
+            MaChiNhanh = row["MaChiNhanh"].ToString();
+        }
     }
 }

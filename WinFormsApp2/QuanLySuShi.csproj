@@ -9,12 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DTO\Phieudatmongiaodi.cs" />
+    <Compile Remove="DTO\PhieuDatMonTrucTuyen.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="DTO\Phieudatmongiaodi.cs" />
-    <None Include="DTO\Phieudatmontaiquan.cs" />
+    <None Include="DTO\PhieuDatMonTrucTuyen.cs" />
   </ItemGroup>
 
   <ItemGroup>

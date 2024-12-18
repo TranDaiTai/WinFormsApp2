@@ -11,8 +11,7 @@ namespace QuanLySuShi
 {
     public partial class Dangnhap : Form
     {
-        public static User nv = null;
-        //public static Khachhang kh = null;
+        public static User user = null;
 
 
         public Dangnhap()
@@ -44,8 +43,8 @@ namespace QuanLySuShi
                 if (loai == 0)
                 {
                    
-                    Dangnhap.nv = NhanvienDAO.GetNhanVienByTaiKhoan(tendangnhap);
-                    (Dangnhap.nv as NhanVien).QuanlyChiNhanh = NhanvienDAO.Is_QuanLy((Dangnhap.nv as NhanVien).MaDinhDanh);
+                    Dangnhap.user = NhanvienDAO.GetNhanVienByTaiKhoan(tendangnhap);
+                    (Dangnhap.user as NhanVien).QuanlyChiNhanh = NhanvienDAO.Is_QuanLy((Dangnhap.user as NhanVien).MaDinhDanh);
 
                     MainfmNhanvien f = new MainfmNhanvien();
                     f.Show();
@@ -53,8 +52,7 @@ namespace QuanLySuShi
                 }
                 else
                 {
-
-                    //Dangnhap.kh = KhachHangDAO.GetKhachHangByTaiKhoan(tendangnhap);
+                    Dangnhap.user = KhachHangDAO.GetKhachHangByTaiKhoan(tendangnhap);
                     Mainfmkhachhang f = new Mainfmkhachhang();
                     f.Show();
 

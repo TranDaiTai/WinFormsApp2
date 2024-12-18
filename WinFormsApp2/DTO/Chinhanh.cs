@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLySuShi.DAO;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -49,6 +50,17 @@ namespace QuanLySuShi.DTO
             BaiDoXeHoi = row["BaiDoXeHoi"] != DBNull.Value ? (bool?)row["BaiDoXeHoi"] : null;
             DiaChi = row["DiaChi"].ToString();
             NhanVienQuanLy = row["NhanVienQuanLy"]?.ToString();
+        }
+        public static void LoadChinhanh(ComboBox cbx)
+        {
+            List<ChiNhanh> listchinhanhs = ChiNhanhDAO.GetAllChiNhanh();
+
+            foreach (var item in listchinhanhs)
+            {
+                cbx.Items.Add(item);
+                cbx.DisplayMember = "TenChiNhanh";
+
+            }
         }
     }
 }

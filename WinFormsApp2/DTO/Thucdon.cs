@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLySuShi.DAO;
+using System;
 
 namespace QuanLySuShi.DTO
 {
@@ -15,5 +16,17 @@ namespace QuanLySuShi.DTO
             TenThucDon = tenThucDon;
             KhuVuc = khuVuc;
         }
+        public static void LoadThucdon(ComboBox cbbthucdon,string machinhanh)
+        {
+            List<ThucDon> listtd = ThucDonDAO.GetThucDon(machinhanh);
+            foreach (var item in listtd)
+            {
+                cbbthucdon.Items.Add(item);
+                cbbthucdon.DisplayMember = "TenThucDon";
+
+            }
+        }
+
+
     }
 }

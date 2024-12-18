@@ -36,6 +36,7 @@
             button2 = new Button();
             cbbloai = new ComboBox();
             label1 = new Label();
+            btndangky = new Button();
             SuspendLayout();
             // 
             // lbtaikhoan
@@ -73,7 +74,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(196, 126);
+            button1.Location = new Point(207, 107);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
             button1.TabIndex = 4;
@@ -83,7 +84,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(307, 126);
+            button2.Location = new Point(307, 107);
             button2.Name = "button2";
             button2.Size = new Size(94, 29);
             button2.TabIndex = 5;
@@ -97,7 +98,7 @@
             cbbloai.Items.AddRange(new object[] { "Nhân viên", "Khách hàng" });
             cbbloai.Location = new Point(64, 126);
             cbbloai.Name = "cbbloai";
-            cbbloai.Size = new Size(126, 28);
+            cbbloai.Size = new Size(100, 28);
             cbbloai.TabIndex = 6;
             cbbloai.SelectedIndexChanged += cbbloai_SelectedIndexChanged;
             // 
@@ -110,6 +111,16 @@
             label1.TabIndex = 7;
             label1.Text = "Loại";
             // 
+            // btndangky
+            // 
+            btndangky.Location = new Point(207, 138);
+            btndangky.Name = "btndangky";
+            btndangky.Size = new Size(94, 29);
+            btndangky.TabIndex = 4;
+            btndangky.Text = "Đăng ký";
+            btndangky.UseVisualStyleBackColor = true;
+            btndangky.Click += btdangnhap_Click;
+            // 
             // Dangnhap
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -118,6 +129,7 @@
             Controls.Add(label1);
             Controls.Add(cbbloai);
             Controls.Add(button2);
+            Controls.Add(btndangky);
             Controls.Add(button1);
             Controls.Add(tbmatkhau);
             Controls.Add(tbtaikhoan);
@@ -142,5 +154,6 @@
         private Button button2;
         private ComboBox cbbloai;
         private Label label1;
+        private Button btndangky;
     }
 }

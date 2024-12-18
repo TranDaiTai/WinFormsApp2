@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLySuShi.DAO;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -33,6 +34,13 @@ namespace QuanLySuShi.DTO
         }
         // Default constructor
         public HoaDon() { }
+        public static void GetHoaDonFromTo(DateTimePicker fromDate, DateTimePicker toDate, ComboBox machinhanh,DataGridView dtgv)
+        {
+            DateTime from = DateTime.Parse(fromDate.Text);
+            DateTime to = DateTime.Parse(toDate.Text);
+            dtgv.DataSource = HoaDonDAO.GetHoaDonFromTo(from, to ,(machinhanh.SelectedItem as ChiNhanh).MaChiNhanh);
+        }
 
     }
+
 }

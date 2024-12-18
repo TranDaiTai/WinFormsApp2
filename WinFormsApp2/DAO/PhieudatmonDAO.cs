@@ -32,57 +32,58 @@ namespace QuanLySuShi.DAO
             return null; // Trả về null nếu không có dữ liệu.
         }
         // Hàm tạo phiếu đặt món mới
-        public static bool CreatePhieuDatMon(string maNhanVien,string maKhachhang, string machinhanh,string maPhieuMoi)
+        public static bool CreatePhieuDatMon(string maNhanVien, string maKhachhang, string machinhanh, string maPhieuMoi)
         {
-            var query = "INSERT INTO PhieuDatMon (MaPhieu, NhanVienLap, NgayLap, MaChiNhanh, LoaiPhieu,MaKhachhang) " +
-                        "VALUES (@MaPhieu, @NhanVienLap, @NgayLap, @MaChiNhanh, @LoaiPhieu,@makhachhang);";
-
-            DateTime ngayDat = DateTime.Now;
-
-            string hinhThuc = "Trực Tiếp";  // Giả sử đây là giá trị cố định cho hình thức trực tiếp
+            string query = "EXEC dbo.sp_CreatePhieuDatMon @MaPhieu, @NhanVienLap, @MaChiNhanh, @MaKhachhang";
 
             var parameters = new Dictionary<string, object>
             {
                 { "@MaPhieu", maPhieuMoi },
-                { "@NhanVienLap", maNhanVien },
-                { "@NgayLap", ngayDat },
+                { "@NhanVienLap", maNhanVien ?? (object)DBNull.Value },  // Nếu null, chèn NULL vào cột
                 { "@MaChiNhanh", machinhanh },
-                { "@LoaiPhieu", hinhThuc },
-                { "makhachhang",maKhachhang}
-
+                { "@MaKhachhang", maKhachhang}
             };
 
             // Thực thi câu lệnh SQL và trả về kết quả
-            return DataProvider.ExecuteNonQuery(query, parameters);
+            DataTable dataTable = DataProvider.ExecuteSelectQuery(query, parameters);
+
+            // Kiểm tra kết quả trả về (nếu cần)
+            return dataTable.Rows.Count > 0;
         }
 
         public static string GetMaxPhieuDatMon()
         {
             // Câu truy vấn SQL để lấy giá trị lớn nhất của phần số trong mã phiếu
-            string query = @"
-                SELECT TOP 1 
-                    MAX(CAST(SUBSTRING(MaPhieu, 3, LEN(MaPhieu)) AS INT)) AS MaxNum
-                FROM PhieuDatMon
-                WHERE MaPhieu LIKE 'PD%'
-                GROUP BY MaPhieu
-                ORDER BY MaxNum DESC;
-            ";
+            string query = "select dbo.fn_GetNextPhieuDatMon();";
+           
 
             DataTable dataTable = DataProvider.ExecuteSelectQuery(query);
 
-            if (dataTable != null && dataTable.Rows.Count > 0)
-            {
-                int maxNum = Convert.ToInt32(dataTable.Rows[0]["MaxNum"]);
+          return (string)dataTable.Rows[0][0];
+        }
+        public static List<PhieuDatMon> GetPhieuDatMonByMaKhachHang(string maKhachHang)
+        {
+            List<PhieuDatMon> phieuDatMons = new List<PhieuDatMon>();
 
-                // Tạo mã phiếu tiếp theo bằng cách tăng giá trị maxNum
-                string newPhieu = "PD" + (maxNum + 1); // Đảm bảo định dạng 3 chữ số
-                return newPhieu;
-            }
-            else
+            // Câu truy vấn SQL
+            string query = "SELECT * FROM PhieuDatMon WHERE MaKhachHang = @MaKhachHang";
+
+            // Tạo tham số truy vấn
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("@MaKhachHang", maKhachHang);
+
+            // Thực thi truy vấn
+            DataTable result = DataProvider.ExecuteSelectQuery(query, parameters);
+
+            // Duyệt qua các dòng kết quả và chuyển thành đối tượng PhieuDatMon
+            foreach (DataRow row in result.Rows)
             {
-                // Nếu không có phiếu nào, trả về mã phiếu đầu tiên là PD001
-                return "PD001";
+                PhieuDatMon phieuDatMon = new PhieuDatMon(row);
+              
+                phieuDatMons.Add(phieuDatMon);
             }
+
+            return phieuDatMons;
         }
 
     }

@@ -10,48 +10,28 @@ namespace QuanLySuShi.DAO
 {
     public class BoPhanDAO
     {
-        // Lấy tất cả bộ phận
-        public static List<BoPhan> GetAllBoPhan()
+
+
+        public static List<BoPhan> GetBoPhan(string? maBoPhan =null)
         {
+            string query = "EXEC sp_getBoPhan @MaBoPhan";
             List<BoPhan> boPhans = new List<BoPhan>();
-            string query = "SELECT * FROM BoPhan";
-
-            // Thực hiện truy vấn và lấy kết quả
-            DataTable dataTable = DataProvider.ExecuteSelectQuery(query);
-
-            // Chuyển đổi các dòng dữ liệu thành danh sách đối tượng BoPhan
-            if (dataTable != null)
-            {
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    BoPhan boPhan = BoPhan.FromDataRow(row);
-                    boPhans.Add(boPhan);
-                }
-            }
-
-            return boPhans;
-        }
-
-        // Lấy thông tin bộ phận theo Mã Bộ Phận
-        public static BoPhan GetBoPhanByMaBoPhan(string maBoPhan)
-        {
-            string query = "SELECT * FROM BoPhan WHERE MaBoPhan = @MaBoPhan";
 
             // Định nghĩa tham số
             Dictionary<string, object> parameters = new Dictionary<string, object>
-        {
-            { "@MaBoPhan", maBoPhan }
-        };
+            {
+                { "@MaBoPhan", (object)maBoPhan ?? DBNull.Value }
+            };
 
             // Thực hiện truy vấn và lấy kết quả
             DataTable dataTable = DataProvider.ExecuteSelectQuery(query, parameters);
 
-            if (dataTable != null && dataTable.Rows.Count > 0)
+            foreach (DataRow item in dataTable.Rows)
             {
-                return BoPhan.FromDataRow(dataTable.Rows[0]);  // Trả về bộ phận tìm thấy
+                boPhans.Add(BoPhan.FromDataRow(item));  
             }
-
-            return null; // Trả về null nếu không tìm thấy
+            return boPhans;
+           
         }
 
         // Thêm mới một bộ phận

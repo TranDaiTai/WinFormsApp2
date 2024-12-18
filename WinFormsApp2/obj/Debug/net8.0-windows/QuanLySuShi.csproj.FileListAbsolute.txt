@@ -12,7 +12,6 @@ C:\Users\trand\source\repos\WinFormsApp2\WinFormsApp2\bin\Debug\net8.0-windows\r
 C:\Users\trand\source\repos\WinFormsApp2\WinFormsApp2\obj\Debug\net8.0-windows\QuanLySuShi.csproj.AssemblyReference.cache
 C:\Users\trand\source\repos\WinFormsApp2\WinFormsApp2\obj\Debug\net8.0-windows\QuanLySuShi.adminfm.resources
 C:\Users\trand\source\repos\WinFormsApp2\WinFormsApp2\obj\Debug\net8.0-windows\QuanLySuShi.Dangnhap.resources
-C:\Users\trand\source\repos\WinFormsApp2\WinFormsApp2\obj\Debug\net8.0-windows\QuanLySuShi.Khachhang_donhang.resources
 C:\Users\trand\source\repos\WinFormsApp2\WinFormsApp2\obj\Debug\net8.0-windows\QuanLySuShi.Khachhang_info.resources
 C:\Users\trand\source\repos\WinFormsApp2\WinFormsApp2\obj\Debug\net8.0-windows\QuanLySuShi.Mainfmkhachhang.resources
 C:\Users\trand\source\repos\WinFormsApp2\WinFormsApp2\obj\Debug\net8.0-windows\QuanLySuShi.MainfmNhanvien.resources

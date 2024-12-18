@@ -7,9 +7,6 @@
     <Compile Update="Dangnhapfm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Khachhang_donhang.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="Khachhang_info.cs">
       <SubType>Form</SubType>
     </Compile>

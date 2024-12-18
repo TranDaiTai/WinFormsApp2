@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace QuanLySuShi.DAO
 {
@@ -13,14 +14,11 @@ namespace QuanLySuShi.DAO
         // Thêm hóa đơn mới vào cơ sở dữ liệu
         public static bool AddHoaDon(string mahoadon , string machinhanh,string maphieu,decimal tongtien,UuDai uuDai)
         {
-            string query = "INSERT INTO HoaDon (MaHoaDon, NgayLap, TongTien, SoTienGiamGia, MaUuDai, MaPhieu, MaChiNhanh) " +
-                           "VALUES (@MaHoaDon, @NgayLap, @TongTien, @SoTienGiamGia, @MaUuDai, @MaPhieu, @MaChiNhanh)";
-            DateTime NgayLap = DateTime.Now;
-            // Định nghĩa tham số cho truy vấn
-            Dictionary<string, object> parameters = new Dictionary<string, object>
+            string query = "EXEC dbo.sp_AddHoaDon @MaHoaDon, @TongTien, @SoTienGiamGia, @MaUuDai, @MaPhieu, @MaChiNhanh";
+
+            var parameters = new Dictionary<string, object>
             {
                 { "@MaHoaDon", mahoadon },
-                { "@NgayLap", NgayLap },
                 { "@TongTien", tongtien },
                 { "@SoTienGiamGia", uuDai?.GiamGia ?? (object)DBNull.Value },  // Kiểm tra uuDai có null không
                 { "@MaUuDai", uuDai?.MaUuDai ?? (object)DBNull.Value },  // Kiểm tra uuDai có null không
@@ -78,43 +76,25 @@ namespace QuanLySuShi.DAO
         public static string GetMaxHoaDon()
         {
             // Câu truy vấn SQL để lấy giá trị lớn nhất của phần số trong mã phiếu
-            string query = @"
-                SELECT TOP 1 
-                    MAX(CAST(SUBSTRING(mahoadon, 3, LEN(mahoadon)) AS INT)) AS MaxNum
-                FROM hoadon
-                WHERE mahoadon LIKE 'HD%'
-                GROUP BY mahoadon
-                ORDER BY MaxNum DESC;
-            ";
+            string query = "SELECT dbo.fn_GetMaxHoaDon();";
 
             DataTable dataTable = DataProvider.ExecuteSelectQuery(query);
 
-            if (dataTable != null && dataTable.Rows.Count > 0)
-            {
-                int maxNum = Convert.ToInt32(dataTable.Rows[0]["MaxNum"]);
+            string maxNum = (String)((dataTable.Rows[0][0]));
 
-                // Tạo mã phiếu tiếp theo bằng cách tăng giá trị maxNum
-                string newPhieu = "HD" + (maxNum + 1); // Đảm bảo định dạng 3 chữ số
-                return newPhieu;
-            }
-            else
-            {
-                // Nếu không có phiếu nào, trả về mã phiếu đầu tiên là PD001
-                return "HD001";
-            }
+            return maxNum;
         }
-        public static List<HoaDon> GetHoaDonFromTo(DateTime fromDate, DateTime toDate,string machinhanh)
+        public static List<HoaDon> GetHoaDonFromTo(DateTime fromDate, DateTime toDate, string maChiNhanh)
         {
-            string query = @"SELECT Mahoadon, NgayLap,TongTien,SoTienGiamGia,MaUuDai,MaPhieu,machinhanh
-                             FROM HoaDon
-                             WHERE NgayLap BETWEEN @FromDate AND @ToDate and Hoadon.machinhanh = @machinhanh";
+            // Tên Stored Procedure
+            string query = "EXEC sp_GetHoaDonFromTo @FromDate, @ToDate, @MaChiNhanh";
 
+            // Danh sách tham số
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
                 { "@FromDate", fromDate },
                 { "@ToDate", toDate },
-                { "@machinhanh", machinhanh }
-
+                { "@MaChiNhanh", maChiNhanh }
             };
 
             // Thực thi truy vấn và lấy kết quả
@@ -132,6 +112,7 @@ namespace QuanLySuShi.DAO
 
             return hoaDonList;
         }
+
 
     }
 }
