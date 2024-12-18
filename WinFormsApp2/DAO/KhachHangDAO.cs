@@ -33,17 +33,15 @@ namespace QuanLySuShi.DAO
         {
             // Câu truy vấn SQL để lấy giá trị lớn nhất của phần số trong mã phiếu
             string query = @"
-                SELECT TOP 1 
-                    MAX(CAST(SUBSTRING(MaKhachHang, 3, LEN(MaKhachHang)) AS INT)) AS MaxNum
+                SELECT
+                    MAX(CAST(SUBSTRING(MaKhachHang, 3, LEN(MaKhachHang)-2) AS INT)) AS MaxNum
                 FROM KhachHang
                 WHERE MaKhachHang LIKE 'KH%'
-                GROUP BY MaKhachHang
-                ORDER BY MaxNum DESC;
             ";
 
             DataTable dataTable = DataProvider.ExecuteSelectQuery(query);
 
-            if (dataTable != null && dataTable.Rows.Count > 0)
+            if (dataTable != null && dataTable.Rows.Count > 0)  
             {
                 int maxNum = Convert.ToInt32(dataTable.Rows[0]["MaxNum"]);
 
@@ -57,6 +55,23 @@ namespace QuanLySuShi.DAO
                 return "KH001";
             }
         }
+        public static bool CreatKhachHang(KhachHang khachHang)
+        {
+            string query = "EXEC sp_CreateKhachHang @MaKhachHang,@HoTen,@SoDienThoai,@Email,@CCCD,@GioiTinh,@MatKhau,@TaiKhoan";
+            var parameters = new Dictionary<string, object>
+            {
+                { "@MaKhachHang", khachHang.MaDinhDanh },
+                { "@HoTen", (object)khachHang.HoTen ?? DBNull.Value },
+                { "@SoDienThoai", (object)khachHang.SoDienThoai?? DBNull.Value },
+                { "@Email", (object)khachHang.Email?? DBNull.Value },
+                { "@CCCD", (object)khachHang.CCCD ?? DBNull.Value},
+                { "@GioiTinh", string.IsNullOrEmpty(khachHang.GioiTinh) ? DBNull.Value : khachHang.GioiTinh },
+                { "@TaiKhoan", (object)khachHang.TaiKhoan ?? DBNull.Value},
+                { "@MatKhau",(object) khachHang.MatKhau ?? DBNull.Value}
+            };
 
+            // Gọi hàm thực thi câu lệnh SQL
+            return DataProvider.ExecuteNonQuery(query, parameters);
+        }
     }
 }

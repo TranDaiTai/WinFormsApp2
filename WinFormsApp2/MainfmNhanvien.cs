@@ -103,6 +103,8 @@ namespace QuanLySuShi
 
                 string maPhieuMoi = PhieudatmonDAO.GetMaxPhieuDatMon(); // Hoặc có thể là chuỗi tự tạo, tùy vào quy tắc trong hệ thống của bạn.
                 string makhachhang = KhachHangDAO.GetMaxMakhachhang();
+                KhachHang kh = new KhachHang() { MaDinhDanh = makhachhang };
+                KhachHangDAO.CreatKhachHang(kh);
 
 
                 isSuccess = PhieudatmonDAO.CreatePhieuDatMon(Dangnhap.user.MaDinhDanh, makhachhang, (Dangnhap.user as NhanVien).MaChiNhanh, maPhieuMoi);
@@ -291,37 +293,92 @@ namespace QuanLySuShi
 
         private void btnTao_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(tbHoVaTen_taothe.Text))
+            // Kiểm tra dữ liệu trong các textbox
+            if (string.IsNullOrWhiteSpace(tbHoVaTen_taothe.Text))
             {
+                MessageBox.Show("Họ và tên không được để trống.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tbHoVaTen_taothe.Focus();
                 return;
             }
             if (string.IsNullOrWhiteSpace(tbSDT_taothe.Text))
             {
+                MessageBox.Show("Số điện thoại không được để trống.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tbSDT_taothe.Focus();
                 return;
             }
             if (string.IsNullOrWhiteSpace(tbEmail_taothe.Text))
             {
+                MessageBox.Show("Email không được để trống.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tbEmail_taothe.Focus();
                 return;
             }
             if (string.IsNullOrWhiteSpace(tbCCCD_taothe.Text))
             {
+                MessageBox.Show("CCCD không được để trống.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tbCCCD_taothe.Focus();
                 return;
             }
             if (string.IsNullOrWhiteSpace(cbbGioitinh_taothe.Text))
             {
+                MessageBox.Show("Giới tính không được để trống.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbbGioitinh_taothe.Focus();
                 return;
             }
             if (string.IsNullOrWhiteSpace(tbTaiKhoan_taothe.Text))
             {
+                MessageBox.Show("Tài khoản không được để trống.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tbTaiKhoan_taothe.Focus();
                 return;
             }
             if (string.IsNullOrWhiteSpace(tbMatKhau_taothe.Text))
             {
+                MessageBox.Show("Mật khẩu không được để trống.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tbMatKhau_taothe.Focus();
                 return;
             }
-            string makhachhang = KhachHangDAO.GetMaxMakhachhang();
 
+            try
+            {
+                // Lấy mã khách hàng mới (tự động tăng)
+                string maKhachHang = KhachHangDAO.GetMaxMakhachhang();
 
+                // Tạo đối tượng KhachHang
+                KhachHang newCustomer = new KhachHang
+                {
+                    MaDinhDanh = maKhachHang,
+                    HoTen = tbHoVaTen_taothe.Text,
+                    SoDienThoai = tbSDT_taothe.Text,
+                    Email = tbEmail_taothe.Text,
+                    CCCD = tbCCCD_taothe.Text,
+                    GioiTinh = cbbGioitinh_taothe.Text,
+                    TaiKhoan = tbTaiKhoan_taothe.Text,
+                    MatKhau = tbMatKhau_taothe.Text
+                };
+
+                // Gọi DAO để thêm tài khoản
+                bool result = KhachHangDAO.CreatKhachHang(newCustomer);
+
+                if (result)
+                {
+                    MessageBox.Show("Tạo tài khoản khách hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Reset form
+                    tbHoVaTen_taothe.Clear();
+                    tbSDT_taothe.Clear();
+                    tbEmail_taothe.Clear();
+                    tbCCCD_taothe.Clear();
+                    cbbGioitinh_taothe.SelectedIndex = -1;
+                    tbTaiKhoan_taothe.Clear();
+                    tbMatKhau_taothe.Clear();
+                }
+                else
+                {
+                    MessageBox.Show("Tạo tài khoản thất bại. Vui lòng thử lại.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

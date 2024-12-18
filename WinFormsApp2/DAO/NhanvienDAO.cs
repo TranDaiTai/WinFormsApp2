@@ -90,7 +90,7 @@ namespace QuanLySuShi.DAO
         }
         public static bool Is_QuanLy(string manhanvien)
         {
-            string query = "SELECT COUNT(1) FROM chinhanh JOIN nhanvien ON nhanvien.machinhanh = chinhanh.machinhanh WHERE Chinhanh.NhanVienQuanLy = @manhanvien";
+            string query = "SELECT COUNT(1) FROM chinhanh JOIN nhanvien ON nhanvien.machinhanh = chinhanh.machinhanh WHERE Chinhanh.MaNhanVienQuanLy = @manhanvien";
 
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {

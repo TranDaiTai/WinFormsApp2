@@ -18,7 +18,7 @@ namespace QuanLySuShi.DTO
         public bool? BaiDoXeMay { get; set; }
         public bool? BaiDoXeHoi { get; set; }
         public string DiaChi { get; set; }
-        public string NhanVienQuanLy { get; set; }
+        public string MaNhanVienQuanLy { get; set; }
 
         // Default Constructor
         public ChiNhanh() { }
@@ -35,7 +35,7 @@ namespace QuanLySuShi.DTO
             BaiDoXeMay = baiDoXeMay;
             BaiDoXeHoi = baiDoXeHoi;
             DiaChi = diaChi;
-            NhanVienQuanLy = nhanVienQuanLy;
+            MaNhanVienQuanLy = nhanVienQuanLy;
         }
 
         // Constructor từ DataRow
@@ -49,7 +49,7 @@ namespace QuanLySuShi.DTO
             BaiDoXeMay = row["BaiDoXeMay"] != DBNull.Value ? (bool?)row["BaiDoXeMay"] : null;
             BaiDoXeHoi = row["BaiDoXeHoi"] != DBNull.Value ? (bool?)row["BaiDoXeHoi"] : null;
             DiaChi = row["DiaChi"].ToString();
-            NhanVienQuanLy = row["NhanVienQuanLy"]?.ToString();
+            MaNhanVienQuanLy = row["MaNhanVienQuanLy"]?.ToString();
         }
         public static void LoadChinhanh(ComboBox cbx)
         {

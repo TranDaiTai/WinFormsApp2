@@ -21,10 +21,10 @@ namespace QuanLySuShi.DTO
         public User() { }
 
         // Constructor với tham số
-        public User(string maNhanVien, string hoTen, string gioiTinh,
+        public User(string maDinhDanh, string hoTen, string gioiTinh,
                             string taiKhoan, string matKhau)
         {
-            MaDinhDanh = maNhanVien;
+            MaDinhDanh = maDinhDanh;
             HoTen = hoTen;
             GioiTinh = gioiTinh;
             TaiKhoan = taiKhoan;
@@ -91,8 +91,8 @@ namespace QuanLySuShi.DTO
 
         public KhachHang() { }
 
-        public KhachHang(string maKhachHang, string hoTen, string soDienThoai, string email,
-                            string cccd, string gioiTinh, string taiKhoan, string matKhau)
+        public KhachHang(string maKhachHang, string?hoTen, string? soDienThoai, string? email,
+                            string? cccd, string? gioiTinh, string? taiKhoan, string? matKhau)
             : base(maKhachHang, hoTen, gioiTinh, taiKhoan, matKhau)
         {
             SoDienThoai = soDienThoai;
