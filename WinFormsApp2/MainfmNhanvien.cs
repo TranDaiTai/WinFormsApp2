@@ -101,7 +101,7 @@ namespace QuanLySuShi
                 //}
 
 
-                string maPhieuMoi = PhieudatmonDAO.GetMaxPhieuDatMon(); // Hoặc có thể là chuỗi tự tạo, tùy vào quy tắc trong hệ thống của bạn.
+                string maPhieuMoi = PhieudatmonDAO.GeNextPhieuDatMon(); // Hoặc có thể là chuỗi tự tạo, tùy vào quy tắc trong hệ thống của bạn.
                 string makhachhang = KhachHangDAO.GetMaxMakhachhang();
                 KhachHang kh = new KhachHang() { MaDinhDanh = makhachhang };
                 KhachHangDAO.CreatKhachHang(kh);
@@ -271,7 +271,7 @@ namespace QuanLySuShi
             {
 
                 CultureInfo culture = new CultureInfo("vi-VN");
-                string mahoadon = HoaDonDAO.GetMaxHoaDon();
+                string mahoadon = HoaDonDAO.GetNextHoaDon();
                 decimal totalprice = Decimal.Parse(tbtongtien.Text, NumberStyles.Currency, culture);
                 HoaDonDAO.AddHoaDon(mahoadon, (Dangnhap.user as NhanVien).MaChiNhanh, current_maphieu, totalprice, null);
 

@@ -90,10 +90,8 @@ namespace QuanLySuShi
         {
 
         }
-
-        private void btTimkiem_Click(object sender, EventArgs e)
+        public void LoadNhansu()
         {
-           
             if (cbbchinhanhcns.SelectedIndex == -1)
             {
 
@@ -106,8 +104,11 @@ namespace QuanLySuShi
             dtgvcns.Columns["taikhoan"].Visible = false;
             dtgvcns.Columns["matkhau"].Visible = false;
             dtgvcns.Columns["Diachi"].Visible = false;
-
-
+        }
+        private void btTimkiem_Click(object sender, EventArgs e)
+        {
+           
+         LoadNhansu();  
         }
 
         private void textBox6_TextChanged(object sender, EventArgs e)
@@ -168,15 +169,21 @@ namespace QuanLySuShi
                 MessageBox.Show("Vui lòng chọn bộ phận mới.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            DateTime ngayBatDau = DateTime.Parse(dtpcnsfrom.Text);
 
+
+            DateTime ngayKetThuc = DateTime.Parse(dtpcnsTo.Text);
+            if (ngayKetThuc<= ngayBatDau)
+            {
+                MessageBox.Show("Vui lòng chọn ngày bắt đầu nhỏ hơn ngày kết thúc.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
             // Lấy dữ liệu từ các điều khiển
             string maNhanVien = txmanhanviencnsREAD.Text;
             string maBoPhanMoi =(( cbbchuyenbophancns.SelectedItem as BoPhan).MaBoPhan).ToString();
             string maChiNhanhMoi = ((cbbchuyenchinhanhcns.SelectedItem as ChiNhanh).MaChiNhanh).ToString();
-            DateTime ngayBatDau = DateTime.Parse(dtpcnsfrom.Text);
-
-
-              DateTime ngayKetThuc= DateTime.Parse(dtpcnsTo.Text);
+           
 
 
             // Gọi hàm chuyển nhân sự từ DAO
@@ -186,7 +193,7 @@ namespace QuanLySuShi
             if (isSuccess)
             {
                 MessageBox.Show("Chuyển nhân sự thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                LoadNhansu();
                 // Làm mới dữ liệu (nếu cần)
             }
             else

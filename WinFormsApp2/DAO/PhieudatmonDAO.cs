@@ -51,7 +51,7 @@ namespace QuanLySuShi.DAO
             return dataTable.Rows.Count > 0;
         }
 
-        public static string GetMaxPhieuDatMon()
+        public static string GeNextPhieuDatMon()
         {
             // Câu truy vấn SQL để lấy giá trị lớn nhất của phần số trong mã phiếu
             string query = "select dbo.fn_GetNextPhieuDatMon();";

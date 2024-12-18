@@ -73,10 +73,10 @@ namespace QuanLySuShi.DAO
 
             return hoaDons;
         }
-        public static string GetMaxHoaDon()
+        public static string GetNextHoaDon()
         {
             // Câu truy vấn SQL để lấy giá trị lớn nhất của phần số trong mã phiếu
-            string query = "SELECT dbo.fn_GetMaxHoaDon();";
+            string query = "SELECT dbo.fn_GetNextHoaDon();";
 
             DataTable dataTable = DataProvider.ExecuteSelectQuery(query);
 

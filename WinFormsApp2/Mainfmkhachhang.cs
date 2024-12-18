@@ -207,7 +207,7 @@ namespace QuanLySuShi
             }
 
             string ghichu = tbghichu.Text; // Lấy giá trị ghi chú từ TextBox
-            string maphieumoi = PhieudatmonDAO.GetMaxPhieuDatMon();
+            string maphieumoi = PhieudatmonDAO.GeNextPhieuDatMon();
 
             // Tạo phiếu đặt món
             bool isSuccess = PhieudatmonDAO.CreatePhieuDatMon(null, Dangnhap.user.MaDinhDanh, (cbbchinhanh.SelectedItem as ChiNhanh).MaChiNhanh, maphieumoi);
@@ -237,6 +237,8 @@ namespace QuanLySuShi
                         // Bạn có thể kiểm tra việc thêm chi tiết thành công ở đây nếu cần
                     }
                 }
+                LoadDonHang();
+
             }
         }
 

@@ -21,7 +21,7 @@ namespace QuanLySuShi.DTO
         // Constructor
         public PhieuDatMon(string maKhachHang, string maChiNhanh)
         {
-            MaPhieu =  PhieudatmonDAO.GetMaxPhieuDatMon(); 
+            MaPhieu =  PhieudatmonDAO.GeNextPhieuDatMon(); 
             MaKhachHang = maKhachHang;
             MaChiNhanh = maChiNhanh;
         }
