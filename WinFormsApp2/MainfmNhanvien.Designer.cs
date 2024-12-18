@@ -40,6 +40,7 @@
             tabPage1 = new TabPage();
             button4 = new Button();
             tbtongtien = new TextBox();
+            flpTable = new FlowLayoutPanel();
             button1 = new Button();
             comboBox4 = new ComboBox();
             btnthanhtoan = new Button();
@@ -53,25 +54,25 @@
             cbbmuc = new ComboBox();
             cbbthucdon = new ComboBox();
             tabPage2 = new TabPage();
+            btnTao = new Button();
             groupBox2 = new GroupBox();
             label8 = new Label();
             label7 = new Label();
-            textBox6 = new TextBox();
+            tbMatKhau_taothe = new TextBox();
             label6 = new Label();
-            textBox5 = new TextBox();
+            tbTaiKhoan_taothe = new TextBox();
             groupBox1 = new GroupBox();
-            comboBox5 = new ComboBox();
+            cbbGioitinh_taothe = new ComboBox();
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
             label2 = new Label();
-            textBox4 = new TextBox();
-            textBox3 = new TextBox();
-            textBox2 = new TextBox();
+            tbCCCD_taothe = new TextBox();
+            tbEmail_taothe = new TextBox();
+            tbSDT_taothe = new TextBox();
             label1 = new Label();
-            textBox9 = new TextBox();
+            tbHoVaTen_taothe = new TextBox();
             tabPage3 = new TabPage();
-            flpTable = new FlowLayoutPanel();
             menuStrip1.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -187,6 +188,14 @@
             tbtongtien.TabIndex = 29;
             tbtongtien.Text = "0";
             tbtongtien.TextAlign = HorizontalAlignment.Right;
+            // 
+            // flpTable
+            // 
+            flpTable.AutoScroll = true;
+            flpTable.Location = new Point(8, 16);
+            flpTable.Name = "flpTable";
+            flpTable.Size = new Size(417, 398);
+            flpTable.TabIndex = 28;
             // 
             // button1
             // 
@@ -307,6 +316,7 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(btnTao);
             tabPage2.Controls.Add(groupBox2);
             tabPage2.Controls.Add(groupBox1);
             tabPage2.Location = new Point(4, 29);
@@ -317,13 +327,23 @@
             tabPage2.Text = "Tạo thẻ";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // btnTao
+            // 
+            btnTao.Location = new Point(15, 389);
+            btnTao.Name = "btnTao";
+            btnTao.Size = new Size(94, 29);
+            btnTao.TabIndex = 8;
+            btnTao.Text = "Tạo";
+            btnTao.UseVisualStyleBackColor = true;
+            btnTao.Click += btnTao_Click;
+            // 
             // groupBox2
             // 
             groupBox2.Controls.Add(label8);
             groupBox2.Controls.Add(label7);
-            groupBox2.Controls.Add(textBox6);
+            groupBox2.Controls.Add(tbMatKhau_taothe);
             groupBox2.Controls.Add(label6);
-            groupBox2.Controls.Add(textBox5);
+            groupBox2.Controls.Add(tbTaiKhoan_taothe);
             groupBox2.Location = new Point(251, 6);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(286, 116);
@@ -349,12 +369,12 @@
             label7.TabIndex = 5;
             label7.Text = "Mật khẩu ";
             // 
-            // textBox6
+            // tbMatKhau_taothe
             // 
-            textBox6.Location = new Point(155, 73);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(125, 27);
-            textBox6.TabIndex = 4;
+            tbMatKhau_taothe.Location = new Point(155, 73);
+            tbMatKhau_taothe.Name = "tbMatKhau_taothe";
+            tbMatKhau_taothe.Size = new Size(125, 27);
+            tbMatKhau_taothe.TabIndex = 4;
             // 
             // label6
             // 
@@ -364,25 +384,25 @@
             label6.Size = new Size(0, 20);
             label6.TabIndex = 3;
             // 
-            // textBox5
+            // tbTaiKhoan_taothe
             // 
-            textBox5.Location = new Point(155, 35);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(125, 27);
-            textBox5.TabIndex = 2;
+            tbTaiKhoan_taothe.Location = new Point(155, 35);
+            tbTaiKhoan_taothe.Name = "tbTaiKhoan_taothe";
+            tbTaiKhoan_taothe.Size = new Size(125, 27);
+            tbTaiKhoan_taothe.TabIndex = 2;
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(comboBox5);
+            groupBox1.Controls.Add(cbbGioitinh_taothe);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(textBox4);
-            groupBox1.Controls.Add(textBox3);
-            groupBox1.Controls.Add(textBox2);
+            groupBox1.Controls.Add(tbCCCD_taothe);
+            groupBox1.Controls.Add(tbEmail_taothe);
+            groupBox1.Controls.Add(tbSDT_taothe);
             groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(textBox9);
+            groupBox1.Controls.Add(tbHoVaTen_taothe);
             groupBox1.Location = new Point(13, 6);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(213, 292);
@@ -390,14 +410,14 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin cá nhân";
             // 
-            // comboBox5
+            // cbbGioitinh_taothe
             // 
-            comboBox5.FormattingEnabled = true;
-            comboBox5.Items.AddRange(new object[] { "Nam", "Nữ" });
-            comboBox5.Location = new Point(73, 201);
-            comboBox5.Name = "comboBox5";
-            comboBox5.Size = new Size(125, 28);
-            comboBox5.TabIndex = 4;
+            cbbGioitinh_taothe.FormattingEnabled = true;
+            cbbGioitinh_taothe.Items.AddRange(new object[] { "Nam", "Nữ" });
+            cbbGioitinh_taothe.Location = new Point(73, 201);
+            cbbGioitinh_taothe.Name = "cbbGioitinh_taothe";
+            cbbGioitinh_taothe.Size = new Size(125, 28);
+            cbbGioitinh_taothe.TabIndex = 4;
             // 
             // label5
             // 
@@ -435,26 +455,26 @@
             label2.TabIndex = 3;
             label2.Text = "Sđt";
             // 
-            // textBox4
+            // tbCCCD_taothe
             // 
-            textBox4.Location = new Point(73, 161);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(125, 27);
-            textBox4.TabIndex = 2;
+            tbCCCD_taothe.Location = new Point(73, 161);
+            tbCCCD_taothe.Name = "tbCCCD_taothe";
+            tbCCCD_taothe.Size = new Size(125, 27);
+            tbCCCD_taothe.TabIndex = 2;
             // 
-            // textBox3
+            // tbEmail_taothe
             // 
-            textBox3.Location = new Point(73, 125);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(125, 27);
-            textBox3.TabIndex = 2;
+            tbEmail_taothe.Location = new Point(73, 125);
+            tbEmail_taothe.Name = "tbEmail_taothe";
+            tbEmail_taothe.Size = new Size(125, 27);
+            tbEmail_taothe.TabIndex = 2;
             // 
-            // textBox2
+            // tbSDT_taothe
             // 
-            textBox2.Location = new Point(73, 80);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(125, 27);
-            textBox2.TabIndex = 2;
+            tbSDT_taothe.Location = new Point(73, 80);
+            tbSDT_taothe.Name = "tbSDT_taothe";
+            tbSDT_taothe.Size = new Size(125, 27);
+            tbSDT_taothe.TabIndex = 2;
             // 
             // label1
             // 
@@ -465,12 +485,12 @@
             label1.TabIndex = 1;
             label1.Text = "Họ Tên";
             // 
-            // textBox9
+            // tbHoVaTen_taothe
             // 
-            textBox9.Location = new Point(73, 36);
-            textBox9.Name = "textBox9";
-            textBox9.Size = new Size(125, 27);
-            textBox9.TabIndex = 0;
+            tbHoVaTen_taothe.Location = new Point(73, 36);
+            tbHoVaTen_taothe.Name = "tbHoVaTen_taothe";
+            tbHoVaTen_taothe.Size = new Size(125, 27);
+            tbHoVaTen_taothe.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -481,14 +501,6 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Đơn hàng";
             tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // flpTable
-            // 
-            flpTable.AutoScroll = true;
-            flpTable.Location = new Point(8, 16);
-            flpTable.Name = "flpTable";
-            flpTable.Size = new Size(417, 398);
-            flpTable.TabIndex = 28;
             // 
             // MainfmNhanvien
             // 
@@ -545,20 +557,21 @@
         private GroupBox groupBox2;
         private Label label8;
         private Label label7;
-        private TextBox textBox6;
+        private TextBox tbMatKhau_taothe;
         private Label label6;
-        private TextBox textBox5;
+        private TextBox tbTaiKhoan_taothe;
         private GroupBox groupBox1;
-        private ComboBox comboBox5;
+        private ComboBox cbbGioitinh_taothe;
         private Label label5;
         private Label label4;
         private Label label3;
         private Label label2;
-        private TextBox textBox4;
-        private TextBox textBox3;
-        private TextBox textBox2;
+        private TextBox tbCCCD_taothe;
+        private TextBox tbEmail_taothe;
+        private TextBox tbSDT_taothe;
         private Label label1;
-        private TextBox textBox9;
+        private TextBox tbHoVaTen_taothe;
         private FlowLayoutPanel flpTable;
+        private Button btnTao;
     }
 }

@@ -23,7 +23,7 @@ namespace QuanLySuShi
         {
             InitializeComponent();
             Loadtable();
-            ThucDon.LoadThucdon(cbbthucdon,(Dangnhap.user as NhanVien).MaChiNhanh);
+            ThucDon.LoadThucdon(cbbthucdon, (Dangnhap.user as NhanVien).MaChiNhanh);
             PhanQuyen();
         }
 
@@ -48,7 +48,7 @@ namespace QuanLySuShi
 
         private void btThem_Click(object sender, EventArgs e)
         {
-            if ( selected_table == null)
+            if (selected_table == null)
             {
                 MessageBox.Show("Vui lòng chọn Bàn.", "Thông báo");
                 return;
@@ -70,7 +70,7 @@ namespace QuanLySuShi
             Table selectTable = (selected_table.Tag as Table);
 
 
-           
+
             bool isSuccess = false;
             string mamonan = selectedMonAn.MaMonAn;
             if (string.IsNullOrEmpty(current_maphieu))
@@ -102,7 +102,7 @@ namespace QuanLySuShi
 
 
                 string maPhieuMoi = PhieudatmonDAO.GetMaxPhieuDatMon(); // Hoặc có thể là chuỗi tự tạo, tùy vào quy tắc trong hệ thống của bạn.
-                string makhachhang = NhanvienDAO.GetMaxMakhachhang();
+                string makhachhang = KhachHangDAO.GetMaxMakhachhang();
 
 
                 isSuccess = PhieudatmonDAO.CreatePhieuDatMon(Dangnhap.user.MaDinhDanh, makhachhang, (Dangnhap.user as NhanVien).MaChiNhanh, maPhieuMoi);
@@ -124,12 +124,12 @@ namespace QuanLySuShi
                 isSuccess = ChitietphieuDAO.AddChitietPhieu(current_maphieu, mamonan, soLuong);
 
                 // Thông báo kết quả
-               
-                    MessageBox.Show("Thêm món ăn vào phiếu thành công!", "Thông báo");
 
-                    // Cập nhật lại danh sách chi tiết phiếu
-                    showPhieudat(selectTable.TableID);
-               
+                MessageBox.Show("Thêm món ăn vào phiếu thành công!", "Thông báo");
+
+                // Cập nhật lại danh sách chi tiết phiếu
+                showPhieudat(selectTable.TableID);
+
             }
         }
 
@@ -173,7 +173,7 @@ namespace QuanLySuShi
 
             CultureInfo culture = new CultureInfo("vi-VN");
 
-          
+
             if (!string.IsNullOrEmpty(current_maphieu))
             {
                 List<Chitietphieudat> list = ChitietphieuDAO.GetChitietPhieuByMaPhieu(current_maphieu);
@@ -205,13 +205,13 @@ namespace QuanLySuShi
         private void cbbthucdon_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Khi người dùng thay đổi thực đơn, tải lại các mục theo thực đơn đã chọn
-            Muc.LoadMucByThucdon(cbbmuc,cbbthucdon);
+            Muc.LoadMucByThucdon(cbbmuc, cbbthucdon);
         }
 
         private void cbbMuc_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Khi người dùng thay đổi mục, tải lại các món ăn theo mục đã chọn
-            MonAn.LoadMonAnByMuc(cbbmuc , cbbmonan);
+            MonAn.LoadMonAnByMuc(cbbmuc, cbbmonan);
         }
 
 
@@ -263,9 +263,9 @@ namespace QuanLySuShi
         private void btnthanhtoan_Click(object sender, EventArgs e)
         {
             Table selectTable = (selected_table.Tag as Table);
-           
 
-            if (current_maphieu != null )
+
+            if (current_maphieu != null)
             {
 
                 CultureInfo culture = new CultureInfo("vi-VN");
@@ -280,13 +280,48 @@ namespace QuanLySuShi
 
                 MessageBox.Show($"Tổng hoá đơn của quý khách là {totalprice}", "thông báo");
                 current_maphieu = null;
-                selected_table = null; 
+                selected_table = null;
                 listchitiet.Items.Clear();
             }
             else
             {
-                MessageBox.Show("vui lòng chọn bàn khác để thanh toán", "thông báo"); 
+                MessageBox.Show("vui lòng chọn bàn khác để thanh toán", "thông báo");
             }
+        }
+
+        private void btnTao_Click(object sender, EventArgs e)
+        {
+            if(string.IsNullOrWhiteSpace(tbHoVaTen_taothe.Text))
+            {
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(tbSDT_taothe.Text))
+            {
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(tbEmail_taothe.Text))
+            {
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(tbCCCD_taothe.Text))
+            {
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(cbbGioitinh_taothe.Text))
+            {
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(tbTaiKhoan_taothe.Text))
+            {
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(tbMatKhau_taothe.Text))
+            {
+                return;
+            }
+            string makhachhang = KhachHangDAO.GetMaxMakhachhang();
+
+
         }
     }
 }
