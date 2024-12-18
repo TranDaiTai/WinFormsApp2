@@ -26,11 +26,12 @@ DELETE FROM ThucDon;
 DELETE FROM NhanVien;
 DELETE FROM BoPhan;
 DELETE FROM ChiNhanh;
+DELETE FROM  UuDai ;
 
 go
 
 -- Thêm dữ liệu mới vào bảng ChiNhanh
-INSERT INTO ChiNhanh (MaChiNhanh, TenChiNhanh, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeMay, BaiDoXeHoi, DiaChi, NhanVienQuanLy) 
+INSERT INTO ChiNhanh (MaChiNhanh, TenChiNhanh, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeMay, BaiDoXeHoi, DiaChi, MaNhanVienQuanLy) 
 VALUES
 ('CN01', N'Chi nhánh A', '08:00', '22:00', '0901112233', 1, 1, N'Số 12, đường ABC, Quận 1', 'NV001'),
 ('CN02', N'Chi nhánh B', '08:30', '23:00', '0902223344', 1, 0, N'Số 34, đường XYZ, Quận 2', 'NV002');
@@ -51,7 +52,9 @@ GO
 INSERT INTO NhanVien (MaNhanVien, HoTen, NgaySinh, GioiTinh, NgayVaoLam, NgayKetThuc, MaBoPhan, MaChiNhanh, DiaChi, TaiKhoan, MatKhau) 
 VALUES
 ('NV001', N'Nguyễn Văn A', '1990-01-01', 'Nam', '2015-05-01', NULL, 'BP01', 'CN01', N'Số 12, đường ABC', 'nguyenvana', 'password123'),
-('NV002', N'Trần Thị B', '1992-02-15', 'Nữ', '2017-06-01', NULL, 'BP02', 'CN02', N'Số 34, đường XYZ', 'tranthib', 'password456');
+('NV002', N'Trần Thị B', '1992-02-15', N'Nữ', '2017-06-01', NULL, 'BP02', 'CN02', N'Số 34, đường XYZ', 'tranthib', 'password456'),
+('NV003', N'Trần Thị c', '1992-02-15', N'Nữ', '2017-06-01', NULL, 'BP02', 'CN02', N'Số 34, đường XYZ', 'tranthic', 'password456');
+
 
 GO
 
@@ -86,6 +89,7 @@ VALUES
 ('KH01', N'Nguyễn Văn C', '0901234567', 'nguyenvanc@gmail.com', '123456789012', 'Nam', 'nguyenvanc', 'password789'),
 ('KH02', N'Trần Thị D', '0902345678', 'tranthid@gmail.com', '234567890123', N'Nữ', 'tranthid', 'password101');
 
+
 GO
 
 -- Thêm dữ liệu vào bảng PhieuDatMon
@@ -116,7 +120,11 @@ GO
 -- Thêm dữ liệu vào bảng UuDai
 INSERT INTO UuDai (MaUuDai, GiamGia, ChuongTrinh, TangSanPham, UuDaiChietKhau, LoaiTheApDung, NgayBatDau, NgayKetThuc)
 VALUES
-('UD01', 50000, N'Giảm giá 50% cho khách hàng mới', N'Cơm tấm', 10, N'Khách hàng thân thiết', '2024-12-01', '2024-12-31');
+('UD01', 50000, N'Giảm giá 50% cho khách hàng mới', N'Cơm tấm', 10, N'Membership', '2024-12-01', '2024-12-31'),
+('UD02', 20000, N'Giảm giá 50% cho khách hàng mới', N'Cơm tấm', 10, N'Membership', '2024-12-01', '2024-12-31'),
+('UD03', 130000, N'Giảm giá 50% cho khách hàng mới', N'Cơm tấm', 10, N'Silver', '2024-12-01', '2024-12-31'),
+('UD04', 130000, N'Giảm giá 50% cho khách hàng mới', N'Cơm tấm', 10, N'Gold', '2024-12-01', '2024-12-31')
+
 
 GO
 
@@ -127,6 +135,15 @@ VALUES
 ('PD02', 'B02');
 
 GO
+
+  INSERT INTO [QLShiShu].[dbo].[PhucVu] ([MaChiNhanh], [MaThucDon])
+VALUES 
+    ('CN01', 'TD01'), -- Chi nhánh 01 phục vụ Thực đơn 001
+    ('CN01', 'TD02'), -- Chi nhánh 01 phục vụ Thực đơn 002
+    ('CN02', 'TD01'), -- Chi nhánh 02 phục vụ Thực đơn 003
+    ('CN02', 'TD02') -- Chi nhánh 02 phục vụ Thực đơn 004
+   
+go
 
 -- Thêm dữ liệu vào bảng PhieuDatMonTrucTuyen
 INSERT INTO PhieuDatMonTrucTuyen (MaPhieu, ThoiDiemTruyCap, ThoiGianTruyCap, GhiChu, LoaiDichVu)

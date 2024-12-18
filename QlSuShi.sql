@@ -23,7 +23,7 @@ CREATE TABLE [dbo].[ChiNhanh](
 	[BaiDoXeMay] [bit] NULL,
 	[BaiDoXeHoi] [bit] NULL,
 	DiaChi nvarchar(100)  not null,
-	NhanVienQuanLy char(10) null 
+	MaNhanVienQuanLy char(10) null 
  )
 GO
 CREATE TABLE [dbo].[HoaDon](
@@ -75,8 +75,6 @@ CREATE TABLE [dbo].[PhieuDatMonTrucTiep](
 	[MaBan] [char](10)NOT NULL,
  )
 
-
-
 GO
 CREATE TABLE [dbo].[PhieuDatMonTrucTuyen](
 	[MaPhieu] [char](10) primary key,
@@ -123,12 +121,12 @@ CREATE TABLE [dbo].[DanhGiaDichVu](
 GO
 CREATE TABLE [dbo].[KhachHang] (
     MaKhachHang CHAR(10) PRIMARY KEY,
-    HoTen NVARCHAR(100) NOT NULL,
+    HoTen NVARCHAR(100)  NULL,
     SoDienThoai CHAR(10) NULL,
     Email NCHAR(50) NULL ,
-    CCCD CHAR(12) NULL unique,
+    CCCD CHAR(12) NULL ,
 	GioiTinh NVARCHAR(10)  NULL,
-	TaiKhoan nvarchar(50)   null UNIQUE,
+	TaiKhoan nvarchar(50)   null ,
 	MatKhau nvarchar(50)  null
 );
 
@@ -147,7 +145,7 @@ CREATE TABLE [dbo].[TheKhachHang](
 	[LoaiThe] [varchar](50) NULL,
 	[DiemTichLuy] [int] NULL,
 	[NgayLap] [date] NOT NULL,
-	[MaNhanVien] [char](10) NOT NULL,
+	[MaNhanVienLapThe] [char](10) NOT NULL,
 	[MaKhachHang] [char](10) NOT NULL,
 )
 
@@ -238,12 +236,7 @@ ALTER TABLE [dbo].[KhachHang]  WITH CHECK ADD CHECK  (([SoDienThoai] like '0%' A
 GO
 ALTER TABLE [dbo].[TheKhachHang]  WITH CHECK ADD CHECK  (([DiemTichLuy]>=(0)))
 GO
-ALTER TABLE [dbo].[TheKhachHang]
-ADD CONSTRAINT CK_TheKhachHang_LoaiThe_DiemTichLuy CHECK (
-    (LoaiThe = 'Membership' AND DiemTichLuy < 1000) OR
-    (LoaiThe = 'Silver' AND DiemTichLuy BETWEEN 1000 AND 5000) OR
-    (LoaiThe = 'Gold' AND DiemTichLuy > 5000)
-);
+
 GO
 ALTER TABLE [dbo].[UuDai]  WITH CHECK ADD CHECK  (([GiamGia]>=(0) AND [GiamGia]<=(100)))
 GO
@@ -311,7 +304,7 @@ WITH CHECK ADD CONSTRAINT CK_NhanVien_Info_Ngay CHECK ([NgayVaoLam] <= [NgayKetT
 ----------*----------*---------
 -- Ràng bu?c tham chi?u gi?a b?ng Chi nhánh và Nhân viên
 ALTER TABLE [dbo].ChiNhanh
-ADD CONSTRAINT FK_ChiNhanh_NhanVien FOREIGN KEY (NhanVienQuanLy) REFERENCES [dbo].[NhanVien](MaNhanVien);
+ADD CONSTRAINT FK_ChiNhanh_NhanVien FOREIGN KEY (MaNhanVienQuanLy) REFERENCES [dbo].[NhanVien](MaNhanVien);
 
 
 -- Ràng bu?c tham chi?u gi?a b?ng ThucDon và M?c
@@ -356,7 +349,7 @@ ADD CONSTRAINT FK_DanhGiaDichVu_KhachHang FOREIGN KEY (MaKhachHang) REFERENCES [
 
 -- Ràng bu?c tham chi?u gi?a b?ng Th?KháchHàng và NhânViên, KháchHàng
 ALTER TABLE [dbo].[TheKhachHang]
-ADD CONSTRAINT FK_TheKhachHang_NhanVien FOREIGN KEY (MaNhanVien) REFERENCES [dbo].[NhanVien](MaNhanVien),
+ADD CONSTRAINT FK_TheKhachHang_NhanVien FOREIGN KEY (MaNhanVienLapThe) REFERENCES [dbo].[NhanVien](MaNhanVien),
     CONSTRAINT FK_TheKhachHang_KhachHang FOREIGN KEY (MaKhachHang) REFERENCES [dbo].[KhachHang](MaKhachHang);
 
 -- Ràng bu?c tham chi?u gi?a b?ng L?chS?LàmVi?c và NhânViên, ChiNhánh
@@ -380,21 +373,4 @@ FOREIGN KEY (MaPhieu) REFERENCES [dbo].PhieuDatMon(MaPhieu);
 ALTER TABLE [dbo].[PhieuDatMonTrucTuyen]
 ADD CONSTRAINT FK_PhieuDatMonTrucTuyen_MaPhieu
 FOREIGN KEY (MaPhieu) REFERENCES [dbo].PhieuDatMon(MaPhieu);
-
--- cài d?t trigger thu?c tính suy di?n Giá 
-
--- cài đặt trigger thuộc tính suy diễn Giá 
-
-CREATE TRIGGER TinhThanhTien
-ON ChiTietPhieuDatMon
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    -- Tự động cập nhật giá trị ThanhTien
-    UPDATE ChiTietPhieuDatMon
-    SET Gia = i.SoLuong * m.Gia
-    FROM ChiTietPhieuDatMon ctp
-    INNER JOIN inserted i ON ctp.MaPhieu = i.MaPhieu AND ctp.MaMon = i.MaMon
-    INNER JOIN MonAn m ON m.MaMon = i.MaMon;
-END;
 
