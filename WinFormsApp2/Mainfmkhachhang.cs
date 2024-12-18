@@ -19,6 +19,8 @@ namespace QuanLySuShi
         ListViewItem selectedItem = null;
         DataGridViewRow select_row_dtgv_mon_an = null;
         DataGridViewRow select_row_dtgv_don_hang = null;
+        string mauudai = null;
+
 
 
         public Mainfmkhachhang()
@@ -290,7 +292,7 @@ namespace QuanLySuShi
                     // Tạo item mới từ chi tiết phiếu đặt
                     ListViewItem item = new ListViewItem(ct.MaPhieu);
                     item.SubItems.Add(ct.MaMonAn);
-                    MonAn monAn = MonAnDAO.GetMonAn(maMonAn:ct.MaMonAn)[0];
+                    MonAn monAn = MonAnDAO.GetMonAn(maMonAn: ct.MaMonAn)[0];
                     item.SubItems.Add(monAn.TenMonAn);
                     item.SubItems.Add(ct.Gia.ToString());
                     item.SubItems.Add(ct.SoLuong.ToString());
@@ -299,6 +301,28 @@ namespace QuanLySuShi
                     listView1.Items.Add(item);
                 }
             }
+        }
+
+        private void btuudai_Click_1(object sender, EventArgs e)
+        {
+       
+            TheKhachHang tkh = TheKhachHangDAO.GetTheKhachHang(maKhachHang: (Dangnhap.user.MaDinhDanh));
+            if (tkh == null)
+            {
+                MessageBox.Show("Tài khoản chưa đăng ký thẻ khách hàng", "Thông Báo");
+                return;
+            }
+         
+            List<UuDai> lsUuDai = UuDaiDAO.GetUuDais(loaiTheApDung: tkh.LoaiThe);
+
+            // Mở form phụ để hiển thị danh sách ưu đãi
+            fmUuDais frm = new fmUuDais(lsUuDai);
+            frm.ShowDialog();
+            if (frm.uuDai != null)
+            {
+                mauudai = frm.uuDai.Cells["MaUuDai"].Value?.ToString();
+            }
+
         }
     }
 }

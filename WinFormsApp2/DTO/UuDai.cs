@@ -13,7 +13,7 @@ namespace QuanLySuShi.DTO
         public string MaUuDai { get; set; } // primary key
         public decimal? GiamGia { get; set; } // [money] NULL
         public string ChuongTrinh { get; set; } //  public string TangSanPham { get; set; } //   NULL
-        double? UuDaiChietKhau { get; set; } // [float] NULL
+        public double? UuDaiChietKhau { get; set; } // [float] NULL
         public string LoaiTheApDung { get; set; } //   NULL
         public DateTime NgayBatDau { get; set; } // [date] NOT NULL
         public DateTime NgayKetThuc { get; set; } // [date] NOT NULL

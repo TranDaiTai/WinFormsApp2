@@ -29,7 +29,7 @@ namespace QuanLySuShi.DTO
         {
             // Lấy MaThucDon của thực đơn đã chọn
             string maThucDon = ((ThucDon)cbbthucdon.SelectedItem).MaThucDon;
-
+            cbbmuc.Items.Clear();
             // Lấy danh sách các mục (mục thực đơn) theo MaThucDon
             List<Muc> listMuc = MucDAO.GetMucs(maThucDon:maThucDon);
 

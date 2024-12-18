@@ -53,6 +53,7 @@ namespace QuanLySuShi.DTO
         }
         public static void LoadChinhanh(ComboBox cbx)
         {
+            cbx.Items.Clear();  
             List<ChiNhanh> listchinhanhs = ChiNhanhDAO.GetAllChiNhanh();
 
             foreach (var item in listchinhanhs)

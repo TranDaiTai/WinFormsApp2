@@ -66,6 +66,35 @@
             cbbthucdon = new ComboBox();
             btuudai = new Button();
             tabPage3 = new TabPage();
+            button3 = new Button();
+            groupBox7 = new GroupBox();
+            textBox9 = new TextBox();
+            label11 = new Label();
+            textBox10 = new TextBox();
+            label12 = new Label();
+            button2 = new Button();
+            button1 = new Button();
+            groupBox8 = new GroupBox();
+            label10 = new Label();
+            label9 = new Label();
+            textBox8 = new TextBox();
+            textBox7 = new TextBox();
+            label8 = new Label();
+            label7 = new Label();
+            textBox6 = new TextBox();
+            label6 = new Label();
+            textBox5 = new TextBox();
+            groupBox9 = new GroupBox();
+            comboBox1 = new ComboBox();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            label2 = new Label();
+            textBox4 = new TextBox();
+            textBox3 = new TextBox();
+            textBox2 = new TextBox();
+            label13 = new Label();
+            textBox1 = new TextBox();
             menuStrip1.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -79,6 +108,10 @@
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            tabPage3.SuspendLayout();
+            groupBox7.SuspendLayout();
+            groupBox8.SuspendLayout();
+            groupBox9.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -443,9 +476,16 @@
             btuudai.TabIndex = 39;
             btuudai.Text = "Ưu đãi";
             btuudai.UseVisualStyleBackColor = true;
+            btuudai.Click += btuudai_Click_1;
             // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(button3);
+            tabPage3.Controls.Add(groupBox7);
+            tabPage3.Controls.Add(button2);
+            tabPage3.Controls.Add(button1);
+            tabPage3.Controls.Add(groupBox8);
+            tabPage3.Controls.Add(groupBox9);
             tabPage3.Location = new Point(4, 29);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
@@ -453,6 +493,271 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Quản Lý thông tin";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(438, 333);
+            button3.Name = "button3";
+            button3.Size = new Size(94, 29);
+            button3.TabIndex = 15;
+            button3.Text = "Quay lại";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            groupBox7.Controls.Add(textBox9);
+            groupBox7.Controls.Add(label11);
+            groupBox7.Controls.Add(textBox10);
+            groupBox7.Controls.Add(label12);
+            groupBox7.Location = new Point(246, 206);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Size = new Size(286, 101);
+            groupBox7.TabIndex = 14;
+            groupBox7.TabStop = false;
+            groupBox7.Text = "Thẻ khách hàng";
+            // 
+            // textBox9
+            // 
+            textBox9.Location = new Point(155, 68);
+            textBox9.Name = "textBox9";
+            textBox9.Size = new Size(125, 27);
+            textBox9.TabIndex = 9;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(6, 76);
+            label11.Name = "label11";
+            label11.Size = new Size(62, 20);
+            label11.TabIndex = 8;
+            label11.Text = "Loại thẻ";
+            // 
+            // textBox10
+            // 
+            textBox10.Location = new Point(155, 33);
+            textBox10.Name = "textBox10";
+            textBox10.ReadOnly = true;
+            textBox10.Size = new Size(125, 27);
+            textBox10.TabIndex = 7;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(6, 36);
+            label12.Name = "label12";
+            label12.Size = new Size(45, 20);
+            label12.TabIndex = 6;
+            label12.Text = "Điểm";
+            // 
+            // button2
+            // 
+            button2.Location = new Point(108, 333);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 29);
+            button2.TabIndex = 13;
+            button2.Text = "Lưu";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(8, 333);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 12;
+            button1.Text = "Thay đổi ";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox8
+            // 
+            groupBox8.Controls.Add(label10);
+            groupBox8.Controls.Add(label9);
+            groupBox8.Controls.Add(textBox8);
+            groupBox8.Controls.Add(textBox7);
+            groupBox8.Controls.Add(label8);
+            groupBox8.Controls.Add(label7);
+            groupBox8.Controls.Add(textBox6);
+            groupBox8.Controls.Add(label6);
+            groupBox8.Controls.Add(textBox5);
+            groupBox8.Location = new Point(246, 15);
+            groupBox8.Name = "groupBox8";
+            groupBox8.Size = new Size(286, 185);
+            groupBox8.TabIndex = 11;
+            groupBox8.TabStop = false;
+            groupBox8.Text = "Tài Khoản";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(9, 139);
+            label10.Name = "label10";
+            label10.Size = new Size(132, 20);
+            label10.TabIndex = 8;
+            label10.Text = "Nhập lại Mật Khẩu";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(9, 106);
+            label9.Name = "label9";
+            label9.Size = new Size(104, 20);
+            label9.TabIndex = 8;
+            label9.Text = "Mật khẩu mới ";
+            // 
+            // textBox8
+            // 
+            textBox8.Location = new Point(155, 139);
+            textBox8.Name = "textBox8";
+            textBox8.Size = new Size(125, 27);
+            textBox8.TabIndex = 7;
+            // 
+            // textBox7
+            // 
+            textBox7.Location = new Point(155, 106);
+            textBox7.Name = "textBox7";
+            textBox7.Size = new Size(125, 27);
+            textBox7.TabIndex = 7;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(9, 36);
+            label8.Name = "label8";
+            label8.Size = new Size(71, 20);
+            label8.TabIndex = 6;
+            label8.Text = "Tài khoản";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(9, 73);
+            label7.Name = "label7";
+            label7.Size = new Size(74, 20);
+            label7.TabIndex = 5;
+            label7.Text = "Mật khẩu ";
+            // 
+            // textBox6
+            // 
+            textBox6.Location = new Point(155, 73);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(125, 27);
+            textBox6.TabIndex = 4;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(9, 31);
+            label6.Name = "label6";
+            label6.Size = new Size(0, 20);
+            label6.TabIndex = 3;
+            // 
+            // textBox5
+            // 
+            textBox5.Location = new Point(155, 35);
+            textBox5.Name = "textBox5";
+            textBox5.ReadOnly = true;
+            textBox5.Size = new Size(125, 27);
+            textBox5.TabIndex = 2;
+            // 
+            // groupBox9
+            // 
+            groupBox9.Controls.Add(comboBox1);
+            groupBox9.Controls.Add(label5);
+            groupBox9.Controls.Add(label4);
+            groupBox9.Controls.Add(label3);
+            groupBox9.Controls.Add(label2);
+            groupBox9.Controls.Add(textBox4);
+            groupBox9.Controls.Add(textBox3);
+            groupBox9.Controls.Add(textBox2);
+            groupBox9.Controls.Add(label13);
+            groupBox9.Controls.Add(textBox1);
+            groupBox9.Location = new Point(8, 15);
+            groupBox9.Name = "groupBox9";
+            groupBox9.Size = new Size(213, 292);
+            groupBox9.TabIndex = 10;
+            groupBox9.TabStop = false;
+            groupBox9.Text = "Thông tin cá nhân";
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Nam", "Nữ" });
+            comboBox1.Location = new Point(73, 201);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(125, 28);
+            comboBox1.TabIndex = 4;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(2, 204);
+            label5.Name = "label5";
+            label5.Size = new Size(65, 20);
+            label5.TabIndex = 3;
+            label5.Text = "Giới tính";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(17, 161);
+            label4.Name = "label4";
+            label4.Size = new Size(47, 20);
+            label4.TabIndex = 3;
+            label4.Text = "CCCD";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(17, 128);
+            label3.Name = "label3";
+            label3.Size = new Size(46, 20);
+            label3.TabIndex = 3;
+            label3.Text = "Email";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(17, 83);
+            label2.Name = "label2";
+            label2.Size = new Size(31, 20);
+            label2.TabIndex = 3;
+            label2.Text = "Sđt";
+            // 
+            // textBox4
+            // 
+            textBox4.Location = new Point(73, 161);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(125, 27);
+            textBox4.TabIndex = 2;
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(73, 125);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(125, 27);
+            textBox3.TabIndex = 2;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(73, 80);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(125, 27);
+            textBox2.TabIndex = 2;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(17, 39);
+            label13.Name = "label13";
+            label13.Size = new Size(56, 20);
+            label13.TabIndex = 1;
+            label13.Text = "Họ Tên";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(73, 36);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(125, 27);
+            textBox1.TabIndex = 0;
             // 
             // Mainfmkhachhang
             // 
@@ -483,6 +788,13 @@
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            tabPage3.ResumeLayout(false);
+            groupBox7.ResumeLayout(false);
+            groupBox7.PerformLayout();
+            groupBox8.ResumeLayout(false);
+            groupBox8.PerformLayout();
+            groupBox9.ResumeLayout(false);
+            groupBox9.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -526,5 +838,34 @@
         private ListView listView1;
         private GroupBox groupBox6;
         private ListView listView3;
+        private Button button3;
+        private GroupBox groupBox7;
+        private TextBox textBox9;
+        private Label label11;
+        private TextBox textBox10;
+        private Label label12;
+        private Button button2;
+        private Button button1;
+        private GroupBox groupBox8;
+        private Label label10;
+        private Label label9;
+        private TextBox textBox8;
+        private TextBox textBox7;
+        private Label label8;
+        private Label label7;
+        private TextBox textBox6;
+        private Label label6;
+        private TextBox textBox5;
+        private GroupBox groupBox9;
+        private ComboBox comboBox1;
+        private Label label5;
+        private Label label4;
+        private Label label3;
+        private Label label2;
+        private TextBox textBox4;
+        private TextBox textBox3;
+        private TextBox textBox2;
+        private Label label13;
+        private TextBox textBox1;
     }
 }

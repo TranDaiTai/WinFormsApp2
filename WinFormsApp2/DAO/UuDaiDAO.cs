@@ -11,7 +11,7 @@ namespace QuanLySuShi.DAO
     public class UuDaiDAO
     {
         // Thêm ưu đãi vào cơ sở dữ liệu
-        public bool AddUuDai(UuDai uuDai)
+        public static bool AddUuDai(UuDai uuDai)
         {
             string query = "INSERT INTO UuDai (MaUuDai, GiamGia, ChuongTrinh, TangSanPham, UuDaiChietKhau, LoaiTheApDung, NgayBatDau, NgayKetThuc) " +
                            "VALUES (@MaUuDai, @GiamGia, @ChuongTrinh, @TangSanPham, @UuDaiChietKhau, @LoaiTheApDung, @NgayBatDau, @NgayKetThuc)";
@@ -31,47 +31,38 @@ namespace QuanLySuShi.DAO
             return DataProvider.ExecuteNonQuery(query, parameters);
         }
 
-        // Lấy ưu đãi theo mã ưu đãi
-        public UuDai GetUuDaiById(string maUuDai)
+        // Lấy ưu đãi theo tùy chọn
+        public static List<UuDai> GetUuDais(string maUuDai = null, string loaiTheApDung = null)
         {
-            string query = "SELECT * FROM UuDai WHERE MaUuDai = @MaUuDai";
+            // Gọi stored procedure
+            string query = "EXEC sp_GetUuDais @MaUuDai, @LoaiTheApDung, @NgayHienTai";
 
-            // Định nghĩa tham số cho truy vấn
+            // Khởi tạo tham số
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
-                { "@MaUuDai", maUuDai }
+                { "@MaUuDai", (object)maUuDai ?? DBNull.Value },
+                { "@LoaiTheApDung", (object)loaiTheApDung ?? DBNull.Value },
+                { "@NgayHienTai", DateTime.Now }
             };
 
             // Thực thi truy vấn và lấy dữ liệu
             DataTable dataTable = DataProvider.ExecuteSelectQuery(query, parameters);
 
-            // Nếu tìm thấy dữ liệu, trả về đối tượng UuDai
-            if (dataTable != null && dataTable.Rows.Count > 0)
-            {
-                return UuDai.FromDataRow(dataTable.Rows[0]);
-            }
-
-            return null; // Nếu không tìm thấy, trả về null
-        }
-
-        // Lấy tất cả ưu đãi
-        public List<UuDai> GetAllUuDais()
-        {
-            string query = "SELECT * FROM UuDai";
-            DataTable dataTable = DataProvider.ExecuteSelectQuery(query, null);
-
-            List<UuDai> uuDais = new List<UuDai>();
-
-            // Nếu có dữ liệu, chuyển đổi thành danh sách các đối tượng UuDai
+            // Chuyển đổi dữ liệu thành danh sách đối tượng UuDai
+            List<UuDai> result = new List<UuDai>();
             if (dataTable != null && dataTable.Rows.Count > 0)
             {
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    uuDais.Add(UuDai.FromDataRow(row));
+                    result.Add(UuDai.FromDataRow(row));
                 }
             }
 
-            return uuDais;
+            return result; // Trả về danh sách ưu đãi
         }
+
+
+
+
     }
 }

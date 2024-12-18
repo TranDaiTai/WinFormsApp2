@@ -29,31 +29,15 @@ namespace QuanLySuShi.DAO
             }
             return null;
         }
-        public static string GetMaxMakhachhang()
+        public static string GetNextMakhachhang()
         {
             // Câu truy vấn SQL để lấy giá trị lớn nhất của phần số trong mã phiếu
-            string query = @"
-                SELECT
-                    MAX(CAST(SUBSTRING(MaKhachHang, 3, LEN(MaKhachHang)-2) AS INT)) AS MaxNum
-                FROM KhachHang
-                WHERE MaKhachHang LIKE 'KH%'
-            ";
+            string query = "select dbo.fn_GetNextKhachHang() ;";
+            
 
             DataTable dataTable = DataProvider.ExecuteSelectQuery(query);
 
-            if (dataTable != null && dataTable.Rows.Count > 0)  
-            {
-                int maxNum = Convert.ToInt32(dataTable.Rows[0]["MaxNum"]);
-
-                // Tạo mã phiếu tiếp theo bằng cách tăng giá trị maxNum
-                string newPhieu = "KH" + (maxNum + 1); // Đảm bảo định dạng 3 chữ số
-                return newPhieu;
-            }
-            else
-            {
-                // Nếu không có phiếu nào, trả về mã phiếu đầu tiên là PD001
-                return "KH001";
-            }
+            return (string) dataTable.Rows[0][0];
         }
         public static bool CreatKhachHang(KhachHang khachHang)
         {
@@ -72,6 +56,24 @@ namespace QuanLySuShi.DAO
 
             // Gọi hàm thực thi câu lệnh SQL
             return DataProvider.ExecuteNonQuery(query, parameters);
+        }
+        public static string MaKhachHangByMaPhieu(string Maphieu)
+        {
+
+            // Câu truy vấn SQL
+            string query = "SELECT * FROM KhachHang join PhieuDatMon on KhachHang.MaKhachHang = PhieuDatMon.MaKhachHang AND @MaPhieu =PhieuDatMon.MaPhieu ";
+
+            // Tạo tham số truy vấn
+            var parameters = new Dictionary<string, object>()
+            {
+                {"@MaPhieu", Maphieu}
+            };
+            // Thực thi truy vấn
+            DataTable result = DataProvider.ExecuteSelectQuery(query,parameters);
+
+           
+
+            return (string)result.Rows[0]["MaKhachHang"];
         }
     }
 }

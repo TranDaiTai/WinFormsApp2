@@ -19,6 +19,7 @@ namespace QuanLySuShi.DTO
         public static void LoadThucdon(ComboBox cbbthucdon,string machinhanh)
         {
             List<ThucDon> listtd = ThucDonDAO.GetThucDon(machinhanh);
+            cbbthucdon.Items.Clear();
             foreach (var item in listtd)
             {
                 cbbthucdon.Items.Add(item);

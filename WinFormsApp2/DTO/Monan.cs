@@ -34,6 +34,7 @@ namespace QuanLySuShi.DTO
         }
         public static void LoadMonAnByMuc(ComboBox cbbmuc ,ComboBox cbbmonan)
         {
+            cbbmonan.Items.Clear();   
             // Lấy MaMuc của mục thực đơn đã chọn
             string maMuc = ((Muc)cbbmuc.SelectedItem).MaMuc;
 

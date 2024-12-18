@@ -143,45 +143,22 @@ namespace QuanLySuShi.DAO
         }
         public static bool ChuyenNhanSu(string maNhanVien, string maBoPhanMoi, string maChiNhanhMoi, DateTime ngayBatDau, DateTime? ngayKetThuc)
         {
-          
-            // Bước 1: Cập nhật thông tin của nhân viên trong bảng NhanVien
-            string queryUpdateNhanVien = @"
-            UPDATE NhanVien
-            SET 
-                MaBoPhan = @MaBoPhanMoi,
-                MaChiNhanh = @MaChiNhanhMoi
-            WHERE MaNhanVien = @MaNhanVien
-        ";
 
-            Dictionary<string, object> parametersUpdate = new Dictionary<string, object>
+            // Bước 1: Cập nhật thông tin của nhân viên trong bảng NhanVien
+            string query = "sp_ChuyenNhanSu @MaNhanVien,@MaBoPhanMoi,@MaChiNhanhMoi,@NgayBatDau,@NgayKetThuc";
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>
             {
                 { "@MaNhanVien", maNhanVien },
                 { "@MaBoPhanMoi", maBoPhanMoi },
                 { "@MaChiNhanhMoi", maChiNhanhMoi },
+                { "@NgayBatDau", ngayBatDau},
+                { "@NgayKetThuc" , ngayKetThuc }
             };
 
-            bool rowsAffected = DataProvider.ExecuteNonQuery(queryUpdateNhanVien, parametersUpdate);
 
-            // Bước 2: Thêm lịch sử chuyển công tác vào bảng LichSuLamViec
-            string queryInsertLichSu = @"
-                INSERT INTO LichSuLamViec (MaLS, MaNhanVien, MaChiNhanh, NgayBatDau, NgayKetThuc)
-                VALUES (@MaLS, @MaNhanVien, @MaChiNhanh, @NgayBatDau, @NgayKetThuc)
-            ";
-
-            string maLS = GetMaxLSLV(); // Hàm này sẽ tạo mã lịch sử làm việc mới (chưa có sẵn)
-
-            Dictionary<string, object> parametersInsertLichSu = new Dictionary<string, object>
-            {
-                { "@MaLS", maLS },
-                { "@MaNhanVien", maNhanVien },
-                { "@MaChiNhanh", maChiNhanhMoi },
-                { "@NgayBatDau", ngayBatDau },
-                { "@NgayKetThuc", ngayKetThuc ?? (object)DBNull.Value }
-            };
-
-            DataProvider.ExecuteNonQuery(queryInsertLichSu, parametersInsertLichSu);
-
-            return true; // Nếu cả hai câu truy vấn thành công
+            return DataProvider.ExecuteNonQuery(query, parameters);
+            
         }
 
         public static string GetMaxLSLV()

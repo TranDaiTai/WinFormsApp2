@@ -173,12 +173,20 @@ namespace QuanLySuShi
 
 
             DateTime ngayKetThuc = DateTime.Parse(dtpcnsTo.Text);
-            if (ngayKetThuc<= ngayBatDau)
+            if (ngayKetThuc<= ngayBatDau )
             {
                 MessageBox.Show("Vui lòng chọn ngày bắt đầu nhỏ hơn ngày kết thúc.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 return;
             }
+            if (ngayBatDau < DateTime.Now)
+            {
+                MessageBox.Show("Vui lòng chọn ngày bắt đầu tính từ hiện tại.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+            /// kiem tra lich su lam viec truoc do ngay bat dau phai be hon ngay bau dau cua hien tai 
+            
             // Lấy dữ liệu từ các điều khiển
             string maNhanVien = txmanhanviencnsREAD.Text;
             string maBoPhanMoi =(( cbbchuyenbophancns.SelectedItem as BoPhan).MaBoPhan).ToString();

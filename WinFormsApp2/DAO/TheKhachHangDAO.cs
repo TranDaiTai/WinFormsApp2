@@ -10,24 +10,39 @@ namespace QuanLySuShi.DAO
     public class TheKhachHangDAO
     {
         // Thêm thẻ khách hàng mới
-        public static bool AddTheKhachHang(string maThe, string loaiThe, int diemTichLuy, DateTime ngayLap, string maNhanVien, string maKhachHang)
+        public static bool CreateTheKhachHang(string maThe, string maNhanVien, string maKhachHang)
         {
-            string query = @"
-            INSERT INTO TheKhachHang (MaThe, LoaiThe, DiemTichLuy, NgayLap, MaNhanVien, MaKhachHang)
-            VALUES (@MaThe, @LoaiThe, @DiemTichLuy, @NgayLap, @MaNhanVien, @MaKhachHang)";
 
+            string query = "EXEC sp_CreateTheKhachHang @MaThe,@MaNhanVien,@MaKhachHang";
             Dictionary<string, object> parameters = new Dictionary<string, object>
         {
             { "@MaThe", maThe },
-            { "@LoaiThe", loaiThe },
-            { "@DiemTichLuy", diemTichLuy },
-            { "@NgayLap", ngayLap },
             { "@MaNhanVien", maNhanVien },
             { "@MaKhachHang", maKhachHang }
         };
 
             return DataProvider.ExecuteNonQuery(query, parameters);
         }
+        public static string GetNextTheKhachHang()
+        {
+
+            string query = "select dbo.fn_GetNextTheKhachHang();"; 
+       
+            DataTable datatable = DataProvider.ExecuteSelectQuery(query);
+            return (string)datatable.Rows[0][0]; 
+        }
+        public static bool UpdateCardStatus(string MaKhachHang)
+        {
+
+            string query = "EXEC sp_UpdateCardStatus @MaKhachHang";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { "@MaKhachHang", MaKhachHang }
+            };
+
+            return DataProvider.ExecuteNonQuery(query, parameters);
+        }
+
 
         // Cập nhật thông tin thẻ khách hàng
         public static bool UpdateTheKhachHang(string maThe, string loaiThe, int diemTichLuy, string maNhanVien, string maKhachHang)
@@ -63,17 +78,23 @@ namespace QuanLySuShi.DAO
         }
 
         // Lấy thông tin chi tiết thẻ khách hàng theo mã thẻ
-        public static TheKhachHang GetTheKhachHangById(string maThe)
+        public static TheKhachHang GetTheKhachHang(string maThe = null, string maKhachHang = null, string cccd = null)
         {
-            string query = "SELECT * FROM TheKhachHang WHERE MaThe = @MaThe";
+            // Câu lệnh SQL với logic sửa
+            string query = "Exec sp_GetTheKhachHang @MaThe,@MaKhachHang,@CCCD;";
 
+            // Khởi tạo tham số
             Dictionary<string, object> parameters = new Dictionary<string, object>
-        {
-            { "@MaThe", maThe }
-        };
+    {
+        { "@MaThe", (object)maThe ?? DBNull.Value },
+        { "@MaKhachHang", (object)maKhachHang ?? DBNull.Value },
+        { "@CCCD", (object)cccd ?? DBNull.Value }
+    };
 
+            // Thực thi truy vấn
             DataTable result = DataProvider.ExecuteSelectQuery(query, parameters);
 
+            // Kiểm tra kết quả
             if (result.Rows.Count > 0)
             {
                 DataRow row = result.Rows[0];
@@ -82,12 +103,16 @@ namespace QuanLySuShi.DAO
                     row["LoaiThe"].ToString(),
                     Convert.ToInt32(row["DiemTichLuy"]),
                     Convert.ToDateTime(row["NgayLap"]),
-                    row["MaNhanVien"].ToString(),
+                    row["MaNhanVienLapThe"].ToString(),
                     row["MaKhachHang"].ToString()
                 );
             }
 
+            // Không tìm thấy kết quả
             return null;
         }
+
+
+
     }
 }

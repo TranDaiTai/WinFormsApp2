@@ -37,6 +37,7 @@ namespace QuanLySuShi.DTO
         }
         public static void LoadBoPhan(ComboBox cbx)
         {
+            cbx.Items.Clear();
             List<BoPhan> listbophans = BoPhanDAO.GetBoPhan();
 
             foreach (var item in listbophans)

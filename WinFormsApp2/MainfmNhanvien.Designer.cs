@@ -38,13 +38,12 @@
             btn_admin = new ToolStripMenuItem();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
-            button4 = new Button();
             tbtongtien = new TextBox();
             flpTable = new FlowLayoutPanel();
             button1 = new Button();
             comboBox4 = new ComboBox();
             btnthanhtoan = new Button();
-            button2 = new Button();
+            btnUuDai = new Button();
             listchitiet = new ListView();
             groupBox4 = new GroupBox();
             cbbmonan = new ComboBox();
@@ -73,6 +72,9 @@
             label1 = new Label();
             tbHoVaTen_taothe = new TextBox();
             tabPage3 = new TabPage();
+            tbgiamGia = new TextBox();
+            label9 = new Label();
+            label10 = new Label();
             menuStrip1.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -153,13 +155,15 @@
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(button4);
+            tabPage1.Controls.Add(label10);
+            tabPage1.Controls.Add(label9);
+            tabPage1.Controls.Add(tbgiamGia);
             tabPage1.Controls.Add(tbtongtien);
             tabPage1.Controls.Add(flpTable);
             tabPage1.Controls.Add(button1);
             tabPage1.Controls.Add(comboBox4);
             tabPage1.Controls.Add(btnthanhtoan);
-            tabPage1.Controls.Add(button2);
+            tabPage1.Controls.Add(btnUuDai);
             tabPage1.Controls.Add(listchitiet);
             tabPage1.Controls.Add(groupBox4);
             tabPage1.Location = new Point(4, 29);
@@ -170,21 +174,12 @@
             tabPage1.Text = "Quán lí nhà hàng";
             tabPage1.UseVisualStyleBackColor = true;
             // 
-            // button4
-            // 
-            button4.Location = new Point(531, 353);
-            button4.Name = "button4";
-            button4.Size = new Size(122, 29);
-            button4.TabIndex = 30;
-            button4.Text = "Tổng";
-            button4.UseVisualStyleBackColor = true;
-            // 
             // tbtongtien
             // 
             tbtongtien.Location = new Point(531, 386);
             tbtongtien.Name = "tbtongtien";
             tbtongtien.ReadOnly = true;
-            tbtongtien.Size = new Size(122, 27);
+            tbtongtien.Size = new Size(107, 27);
             tbtongtien.TabIndex = 29;
             tbtongtien.Text = "0";
             tbtongtien.TextAlign = HorizontalAlignment.Right;
@@ -224,14 +219,15 @@
             btnthanhtoan.UseVisualStyleBackColor = true;
             btnthanhtoan.Click += btnthanhtoan_Click;
             // 
-            // button2
+            // btnUuDai
             // 
-            button2.Location = new Point(758, 351);
-            button2.Name = "button2";
-            button2.Size = new Size(94, 29);
-            button2.TabIndex = 24;
-            button2.Text = "Ưu Đãi";
-            button2.UseVisualStyleBackColor = true;
+            btnUuDai.Location = new Point(758, 351);
+            btnUuDai.Name = "btnUuDai";
+            btnUuDai.Size = new Size(94, 29);
+            btnUuDai.TabIndex = 24;
+            btnUuDai.Text = "Ưu Đãi";
+            btnUuDai.UseVisualStyleBackColor = true;
+            btnUuDai.Click += btnUuDai_Click;
             // 
             // listchitiet
             // 
@@ -502,6 +498,34 @@
             tabPage3.Text = "Đơn hàng";
             tabPage3.UseVisualStyleBackColor = true;
             // 
+            // tbgiamGia
+            // 
+            tbgiamGia.Location = new Point(645, 386);
+            tbgiamGia.Name = "tbgiamGia";
+            tbgiamGia.ReadOnly = true;
+            tbgiamGia.Size = new Size(107, 27);
+            tbgiamGia.TabIndex = 29;
+            tbgiamGia.Text = "0";
+            tbgiamGia.TextAlign = HorizontalAlignment.Right;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(545, 355);
+            label9.Name = "label9";
+            label9.Size = new Size(72, 20);
+            label9.TabIndex = 30;
+            label9.Text = "Tổng tiền";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(656, 355);
+            label10.Name = "label10";
+            label10.Size = new Size(69, 20);
+            label10.TabIndex = 30;
+            label10.Text = "Giảm giá";
+            // 
             // MainfmNhanvien
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -537,12 +561,11 @@
         private ToolStripMenuItem btn_admin;
         private TabControl tabControl1;
         private TabPage tabPage1;
-        private Button button4;
         private TextBox tbtongtien;
         private Button button1;
         private ComboBox comboBox4;
         private Button btnthanhtoan;
-        private Button button2;
+        private Button btnUuDai;
         private ListView listchitiet;
         private GroupBox groupBox4;
         private ComboBox cbbmonan;
@@ -573,5 +596,8 @@
         private TextBox tbHoVaTen_taothe;
         private FlowLayoutPanel flpTable;
         private Button btnTao;
+        private Label label9;
+        private TextBox tbgiamGia;
+        private Label label10;
     }
 }

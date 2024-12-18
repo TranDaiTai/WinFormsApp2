@@ -18,6 +18,7 @@ namespace QuanLySuShi
     {
         private Button selected_table = null; // Lưu button đang chọn
         private string current_maphieu = null; // Lưu button đang chọn
+        private string mauudai = null; 
 
         public MainfmNhanvien()
         {
@@ -75,36 +76,41 @@ namespace QuanLySuShi
             string mamonan = selectedMonAn.MaMonAn;
             if (string.IsNullOrEmpty(current_maphieu))
             {
+                string makhachhang = null;
 
-                //// Hỏi người dùng xem có phải khách hàng thân thiết không
-                //DialogResult result = MessageBox.Show("Khách hàng có phải là khách hàng thân thiết không?",
-                //                                      "Xác nhận khách hàng",
-                //                                      MessageBoxButtons.YesNo,
-                //                                      MessageBoxIcon.Question);
+                // Hỏi người dùng xem có phải khách hàng thân thiết không
+                DialogResult result = MessageBox.Show("Khách hàng có phải là khách hàng thân thiết không?",
+                                                      "Xác nhận khách hàng",
+                                                      MessageBoxButtons.YesNo,
+                                                      MessageBoxIcon.Question);
 
-                //if (result == DialogResult.Yes)
-                //{
-                //    // Mở input để nhập thông tin khách hàng thân thiết
-                //    string maKhachHang = Microsoft.VisualBasic.Interaction.InputBox(
-                //                          "Vui lòng nhập mã khách hàng:",
-                //                          "Nhập mã khách hàng thân thiết",
-                //                          "");
-
-                //    if (string.IsNullOrEmpty(maKhachHang))
-                //    {
-                //        MessageBox.Show("Mã khách hàng không được để trống!", "Lỗi");
-                //        return;
-                //    }
-
-                //    // Thêm logic xử lý khách hàng thân thiết ở đây (ví dụ: kiểm tra mã khách hàng)
-                //    MessageBox.Show($"Khách hàng thân thiết: {maKhachHang}", "Thông báo");
-                //}
+                if (result == DialogResult.Yes)
+                {
+                    // Mở input để nhập thông tin khách hàng thân thiết
+                    string CCCD = Microsoft.VisualBasic.Interaction.InputBox(
+                                          "Vui lòng nhập CCCD:",
+                                          "Nhập mã khách hàng thân thiết",
+                                          "");
+                    TheKhachHang tkh = TheKhachHangDAO.GetTheKhachHang(cccd: CCCD);
+                    if (tkh == null)
+                    {
+                        MessageBox.Show("Không tồn tại!", "Lỗi");
+                        return;
+                    }
+                    makhachhang = tkh.MaKhachHang;
+                    // Thêm logic xử lý khách hàng thân thiết ở đây (ví dụ: kiểm tra mã khách hàng)
+                    MessageBox.Show($"Thành Công", "Thông báo");
+                }
+                else
+                {
+                    makhachhang = KhachHangDAO.GetNextMakhachhang();
+                    KhachHang kh = new KhachHang() { MaDinhDanh = makhachhang };
+                    KhachHangDAO.CreatKhachHang(kh);
+                }
 
 
                 string maPhieuMoi = PhieudatmonDAO.GeNextPhieuDatMon(); // Hoặc có thể là chuỗi tự tạo, tùy vào quy tắc trong hệ thống của bạn.
-                string makhachhang = KhachHangDAO.GetMaxMakhachhang();
-                KhachHang kh = new KhachHang() { MaDinhDanh = makhachhang };
-                KhachHangDAO.CreatKhachHang(kh);
+               
 
 
                 isSuccess = PhieudatmonDAO.CreatePhieuDatMon(Dangnhap.user.MaDinhDanh, makhachhang, (Dangnhap.user as NhanVien).MaChiNhanh, maPhieuMoi);
@@ -121,17 +127,11 @@ namespace QuanLySuShi
             }
             else
             {
-
                 // Thêm vào cơ sở dữ liệu
                 isSuccess = ChitietphieuDAO.AddChitietPhieu(current_maphieu, mamonan, soLuong);
 
-                // Thông báo kết quả
-
-                MessageBox.Show("Thêm món ăn vào phiếu thành công!", "Thông báo");
-
                 // Cập nhật lại danh sách chi tiết phiếu
                 showPhieudat(selectTable.TableID);
-
             }
         }
 
@@ -172,7 +172,15 @@ namespace QuanLySuShi
 
 
             decimal totalprice = 0;
+            decimal tienGiam = 0;
+            decimal chietkhau = 0; 
+            if ( mauudai != null )
+            {
+                UuDai uuDai = UuDaiDAO.GetUuDais( maUuDai:mauudai )[0];
+                tienGiam += (Decimal)uuDai.GiamGia;
+                chietkhau += (Decimal)uuDai.UuDaiChietKhau/10; 
 
+            }
             CultureInfo culture = new CultureInfo("vi-VN");
 
 
@@ -190,9 +198,16 @@ namespace QuanLySuShi
                     listchitiet.Items.Add(lsitem);
                     totalprice += monan.GiaTien * item.SoLuong;
                 }
-                tbtongtien.Text = totalprice.ToString("c", culture);
-
             }
+            totalprice = totalprice- tienGiam- totalprice*chietkhau;
+            if ( totalprice < 0)
+            {
+                totalprice = 0;
+            }
+
+            tbgiamGia.Text = tienGiam.ToString("c", culture);
+
+            tbtongtien.Text = totalprice.ToString("c", culture);
 
         }
 
@@ -273,21 +288,27 @@ namespace QuanLySuShi
                 CultureInfo culture = new CultureInfo("vi-VN");
                 string mahoadon = HoaDonDAO.GetNextHoaDon();
                 decimal totalprice = Decimal.Parse(tbtongtien.Text, NumberStyles.Currency, culture);
-                HoaDonDAO.AddHoaDon(mahoadon, (Dangnhap.user as NhanVien).MaChiNhanh, current_maphieu, totalprice, null);
+                HoaDonDAO.AddHoaDon(mahoadon, (Dangnhap.user as NhanVien).MaChiNhanh, current_maphieu, totalprice, UuDaiDAO.GetUuDais(mauudai)[0]);
 
 
                 selectTable.Status = Table.GetTableStatus(selectTable.TableID);
                 Loadtable();
-                showPhieudat(selectTable.TableID);
 
                 MessageBox.Show($"Tổng hoá đơn của quý khách là {totalprice}", "thông báo");
+                TheKhachHangDAO.UpdateCardStatus(KhachHangDAO.MaKhachHangByMaPhieu(current_maphieu));
                 current_maphieu = null;
                 selected_table = null;
+                mauudai = null; 
                 listchitiet.Items.Clear();
+                showPhieudat(selectTable.TableID);
+
+
+
             }
             else
             {
                 MessageBox.Show("vui lòng chọn bàn khác để thanh toán", "thông báo");
+
             }
         }
 
@@ -340,7 +361,7 @@ namespace QuanLySuShi
             try
             {
                 // Lấy mã khách hàng mới (tự động tăng)
-                string maKhachHang = KhachHangDAO.GetMaxMakhachhang();
+                string maKhachHang = KhachHangDAO.GetNextMakhachhang();
 
                 // Tạo đối tượng KhachHang
                 KhachHang newCustomer = new KhachHang
@@ -356,7 +377,7 @@ namespace QuanLySuShi
                 };
 
                 // Gọi DAO để thêm tài khoản
-                bool result = KhachHangDAO.CreatKhachHang(newCustomer);
+                bool result = KhachHangDAO.CreatKhachHang(newCustomer) && TheKhachHangDAO.CreateTheKhachHang(TheKhachHangDAO.GetNextTheKhachHang(), (Dangnhap.user as NhanVien).MaDinhDanh, maKhachHang);
 
                 if (result)
                 {
@@ -380,5 +401,33 @@ namespace QuanLySuShi
                 MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnUuDai_Click(object sender, EventArgs e)
+        {
+            if (current_maphieu == null)
+            {
+                MessageBox.Show("Vui lòng chọn bàn", "Thông Báo");
+                return;
+            }
+            string makh = KhachHangDAO.MaKhachHangByMaPhieu(current_maphieu);
+            TheKhachHang tkh = TheKhachHangDAO.GetTheKhachHang(maKhachHang: makh);
+            if (tkh == null)
+            {
+                MessageBox.Show("Vui lòng đăng ký để sử dụng dịch vụ ưu đãi", "Thông Báo");
+                return;
+            }
+            List<UuDai> lsUuDai = UuDaiDAO.GetUuDais(loaiTheApDung: tkh.LoaiThe);
+
+            // Mở form phụ để hiển thị danh sách ưu đãi
+            fmUuDais frm = new fmUuDais(lsUuDai);
+            frm.ShowDialog();
+            if( frm.uuDai!= null ) 
+           { mauudai = frm.uuDai.Cells["MaUuDai"].Value?.ToString();
+
+                showPhieudat((selected_table.Tag as Table).TableID);
+            }
+
+        }
+
     }
 }
